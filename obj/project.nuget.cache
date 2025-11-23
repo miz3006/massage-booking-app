@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "bjAV2B0eLko=",
+  "dgSpecHash": "Ol8xowKLWCk=",
   "success": true,
   "projectFilePath": "/Users/mizic24/Desktop/faks/IS/webapp_masaze/MasazeBooking/MasazeBooking.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,7 @@
     "/Users/mizic24/.nuget/packages/fluentemail.smtp/3.0.2/fluentemail.smtp.3.0.2.nupkg.sha512",
     "/Users/mizic24/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/Users/mizic24/.nuget/packages/microsoft.aspnetcore.identity.entityframeworkcore/10.0.0/microsoft.aspnetcore.identity.entityframeworkcore.10.0.0.nupkg.sha512",
+    "/Users/mizic24/.nuget/packages/microsoft.aspnetcore.identity.ui/10.0.0/microsoft.aspnetcore.identity.ui.10.0.0.nupkg.sha512",
     "/Users/mizic24/.nuget/packages/microsoft.build/17.7.2/microsoft.build.17.7.2.nupkg.sha512",
     "/Users/mizic24/.nuget/packages/microsoft.build.framework/17.14.28/microsoft.build.framework.17.14.28.nupkg.sha512",
     "/Users/mizic24/.nuget/packages/microsoft.build.tasks.core/17.14.28/microsoft.build.tasks.core.17.14.28.nupkg.sha512",
