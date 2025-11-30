@@ -29,3 +29,34 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+.navbar{
+  background-color: rgb(166, 166, 166);
+}
+
+.navbar .btn-custom {
+    background-color: #258cfb82; 
+    color: #0c2cca;          
+    border: 2px solid #0c2cca; 
+    transition: 0.3s;
+}
+
+.navbar .btn-custom:hover {
+    background-color: #0c2cca; 
+    color: #ffffff;               
+    text-decoration: none;
+}
+
+.logout-btn {
+    color: #e50b83;
+    border: none;
+    background: #ffffff;
+    font: inherit;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+.logout-btn:hover {
+    background-color: #e50b83; 
+    color: #ffffff;               
+    text-decoration: none;
+}

@@ -1,0 +1,26 @@
+@{
+    ViewData["Title"] = "Kontakt";
+}
+<h2>Seznam strank</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Ime</th>
+            <th>Priimek</th>
+            <th>Email</th>
+            <th>Telefon</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var client in Model)
+        {
+            <tr>
+                <td>@client.FirstName</td>
+                <td>@client.LastName</td>
+                <td>@client.Email</td>
+                <td>@client.Phone</td>
+            </tr>
+        }
+    </tbody>
+</table>

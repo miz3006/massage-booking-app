@@ -1,0 +1,1 @@
+umetna inteligenca 7.12.

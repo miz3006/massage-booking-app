@@ -11,7 +11,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-controller="Home" asp-action="Index">MassageStudio</a>
+                
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -22,13 +22,22 @@
 
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link btn-custom" asp-controller="Home" asp-action="Index">Domov</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Services" asp-action="Index">Services</a>
+                            <a class="nav-link btn-custom" asp-controller="AboutUs" asp-action="Index">O nas</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Clients" asp-action="Index">Clients</a>
+                            <a class="nav-link btn-custom" asp-controller="Massages" asp-action="Index">Masaze</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn-custom" asp-controller="Stuff" asp-action="Index">Osebje</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn-custom" asp-controller="Contact" asp-action="Index">Kontakt</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn-custom" asp-controller="MyProfile" asp-action="Index">Moj profil</a>
                         </li>
                     </ul>
                 </div>
