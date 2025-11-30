@@ -1,23 +1,27 @@
-using Microsoft.AspNetCore.Mvc;
-using MassageStudio.Data;
 using MassageStudio.Models;
-using System.Linq;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
-namespace MasazeBooking.Controllers
+namespace MassageStudio.Controllers
 {
+    
     public class ClientsController : Controller
     {
-        private readonly MassageContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ClientsController(MassageContext context)
+        public ClientsController(UserManager<ApplicationUser> userManager)
         {
-            _context = context;
+            _userManager = userManager;
         }
 
-        public IActionResult Index()
+        // GET: /Clients/Index
+        public async Task<IActionResult> Index()
         {
-            var clients = _context.Users.ToList();
-            return View(clients);
+            // vsi uporabniki iz AspNetUsers
+            var users = await _userManager.Users.ToListAsync();
+            return View(users);
         }
     }
 }

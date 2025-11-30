@@ -1,28 +1,105 @@
+using MassageStudio.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
-public class AccountController : Controller
+namespace MassageStudio.Controllers
 {
-    public IActionResult Login()
+    public class AccountController : Controller
     {
-        return View();
-    }
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-    [HttpPost]
-    public IActionResult Login(string email, string password)
-    {
-        // TODO: preveri uporabnika
-        return RedirectToAction("Index", "Home");
-    }
+        public AccountController(
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager)
+        {
+            _userManager = userManager;
+            _signInManager = signInManager;
+        }
 
-    public IActionResult Register()
-    {
-        return View();
-    }
+        // GET: /Account/Login
+        public IActionResult Login()
+        {
+            return View();
+        }
 
-    [HttpPost]
-    public IActionResult Register(string name, string email, string password)
-    {
-        // TODO: shrani uporabnika v bazo
-        return RedirectToAction("Login");
+        // POST: /Account/Login
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(string email, string password)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            // poskusi prijavo z email + password
+            var result = await _signInManager.PasswordSignInAsync(
+                userName: email,     // UserName = Email
+                password: password,
+                isPersistent: false,
+                lockoutOnFailure: false);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            ModelState.AddModelError(string.Empty, "Napačen email ali geslo.");
+            return View();
+        }
+
+        // GET: /Account/Register
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        // POST: /Account/Register
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(string firstName, string lastName, string email, string password, string phone)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            // Ustvari novega uporabnika v ASPNETUSERS
+            var user = new ApplicationUser
+            {
+                UserName = email,
+                Email = email,
+                FirstName = firstName,
+                LastName = lastName,
+                PhoneNumber = phone      // telefonska se shrani v PhoneNumber
+                // City = ...
+            };
+
+            var result = await _userManager.CreateAsync(user, password);
+
+            if (result.Succeeded)
+            {
+                // opcijsko: avtomatsko prijavi
+                await _signInManager.SignInAsync(user, isPersistent: false);
+                return RedirectToAction("Index", "Home");
+            }
+
+            // če je kaj narobe (slabo geslo, email že obstaja ...)
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+
+            return View();
+        }
+
+        // GET: /Account/Logout
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
