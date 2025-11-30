@@ -15,7 +15,7 @@ namespace MasazeBooking.Controllers
         public IActionResult Index()
         {
             ViewBag.ServicesCount = _context.Services.Count();
-            ViewBag.ClientsCount  = _context.Clients.Count();
+            ViewBag.ClientsCount  = _context.Users.Count();
             return View();
         }
     }
