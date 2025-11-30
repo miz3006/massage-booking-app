@@ -1,6 +1,10 @@
+@using MassageStudio.Models
+@model IEnumerable<ApplicationUser>
+
 @{
-    ViewData["Title"] = "Kontakt";
+    ViewData["Title"] = "Seznam strank";
 }
+
 <h2>Seznam strank</h2>
 
 <table class="table table-striped">
@@ -13,14 +17,14 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var client in Model)
-        {
-            <tr>
-                <td>@client.FirstName</td>
-                <td>@client.LastName</td>
-                <td>@client.Email</td>
-                <td>@client.Phone</td>
-            </tr>
-        }
+    @foreach (var client in Model)
+    {
+        <tr>
+            <td>@client.FirstName</td>
+            <td>@client.LastName</td>
+            <td>@client.Email</td>
+            <td>@client.PhoneNumber</td>  @* ali @client.Phone če imaš alias *@
+        </tr>
+    }
     </tbody>
 </table>
