@@ -4,45 +4,42 @@
     <meta charset="utf-8" />
     <title>@ViewData["Title"] - MassageStudio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Bootstrap + CSS ALWAYS FIRST -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    @RenderSection("Styles", required: false)
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
 
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <!-- 🔐 Login/Register/Logout partial -->
-                    <partial name="_LoginPartial" />
+<body class="@ViewData["BodyClass"]">
 
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link btn-custom" asp-controller="Home" asp-action="Index">Domov</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link btn-custom" asp-controller="AboutUs" asp-action="Index">O nas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link btn-custom" asp-controller="Massages" asp-action="Index">Masaze</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link btn-custom" asp-controller="Stuff" asp-action="Index">Osebje</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link btn-custom" asp-controller="Contact" asp-action="Index">Kontakt</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link btn-custom" asp-controller="MyProfile" asp-action="Index">Moj profil</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+
+    <header class="hero-nav">
+        <div class="hero-container hero-nav-inner">
+            <div class="logo">MassageStudio</div>
+
+            <nav class="nav-links">
+                <a asp-controller="Home" asp-action="Index">Domov</a>
+                <a asp-controller="AboutUs" asp-action="Index">O nas</a>
+                <a asp-controller="Massages" asp-action="Index">Masaže</a>
+                <a asp-controller="Stuff" asp-action="Index">Osebje</a>
+                <a asp-controller="Contact" asp-action="Index">Kontakt</a>
+            </nav>
+
+            @if (User.Identity?.IsAuthenticated ?? false)
+            {
+                <a asp-controller="MyProfile" asp-action="Index" class="btn-pill">
+                    Moj profil
+                </a>
+            }
+            else
+            {
+                <a asp-area="Identity" asp-page="/Account/Login" class="btn-pill">
+                    Prijava v profil
+                </a>
+            }
+        </div>
     </header>
 
     <div class="container">
@@ -59,6 +56,8 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>

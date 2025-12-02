@@ -11,15 +11,6 @@ namespace MassageStudio.Data
         {
         }
 
-        public DbSet<Client>  Clients  { get; set; } = default!;
-        public DbSet<Service> Services { get; set; } = default!;
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder); // NUJNO za Identity
-
-            modelBuilder.Entity<Client>().ToTable("Client");
-            modelBuilder.Entity<Service>().ToTable("Service");
-        }
+        public DbSet<Masaza> Masaze { get; set; }   // 👈 to imamo
     }
 }
