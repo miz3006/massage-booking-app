@@ -1,9 +1,14 @@
+@model MassageStudio.Models.ApplicationUser
+
 @{
     ViewData["Title"] = "Moj račun";
 }
 
 <h1>Moj račun</h1>
 
-<p>Kle se pise o accountu</p>
-
-
+<div class="card p-4" style="max-width: 500px;">
+    <p><strong>Ime:</strong> @Model.FirstName</p>
+    <p><strong>Priimek:</strong> @Model.LastName</p>
+    <p><strong>Email:</strong> @Model.Email</p>
+    <p><strong>Telefon:</strong> @Model.PhoneNumber</p>
+</div>

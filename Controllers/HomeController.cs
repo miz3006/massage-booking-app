@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MassageStudio.Data;
+using Microsoft.EntityFrameworkCore; // (ni nujno, ampak je ok)
+using System.Linq;
 
 namespace MasazeBooking.Controllers
 {
@@ -14,8 +16,12 @@ namespace MasazeBooking.Controllers
 
         public IActionResult Index()
         {
-            ViewBag.ServicesCount = _context.Services.Count();
-            ViewBag.ClientsCount  = _context.Users.Count();
+            // št. masaž iz tabele dbo.masaze
+            ViewBag.ServicesCount = _context.Masaze.Count();
+
+            // št. uporabnikov iz AspNetUsers
+            ViewBag.ClientsCount = _context.Users.Count();
+
             return View();
         }
     }

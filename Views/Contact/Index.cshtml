@@ -1,39 +1,48 @@
 @{
     ViewData["Title"] = "Kontakt";
+    ViewData["BodyClass"] = "subpage";
 }
 
-<h1>Kontakt</h1>
-
-<p>Če nas želiš kontaktirati, uporabi spodnje informacije:</p>
-
-<div class="card p-3 mt-3">
-    <h4>Masažni studio</h4>
-    <p>
-        📍 Naslov: Ljubljana, Center 12<br />
-        ☎ Telefon: +386 41 123 456<br />
-        ✉ Email: info@masazestudio.si
-    </p>
+<div class="subpage-hero">
+    <h1>Kontakt</h1>
 </div>
 
-<div class="mt-4">
-    <h4>Pošlji nam sporočilo</h4>
+<div class="subpage-content contact-page">
 
-    <form>
-        <div class="mb-3">
-            <label class="form-label">Ime</label>
-            <input type="text" class="form-control" />
-        </div>
+    <p>
+        Če nas želiš kontaktirati, uporabi spodnje informacije ali pa nam pošlji sporočilo preko obrazca.
+    </p>
 
-        <div class="mb-3">
-            <label class="form-label">Email</label>
-            <input type="email" class="form-control" />
-        </div>
+    <div class="contact-card">
+        <h3>Masažni studio</h3>
+        <p>
+            <strong>Naslov:</strong> Ljubljana, Center 12 <br />
+            <strong>Telefon:</strong> +386 41 123 456 <br />
+            <strong>Email:</strong> info@masazestudio.si
+        </p>
+    </div>
 
-        <div class="mb-3">
-            <label class="form-label">Sporočilo</label>
-            <textarea class="form-control" rows="4"></textarea>
-        </div>
+    <div class="contact-form">
+        <h3>Pošlji nam sporočilo</h3>
 
-        <button type="submit" class="btn btn-primary">Pošlji</button>
-    </form>
+        <form>
+            <div class="mb-3">
+                <label class="form-label">Ime</label>
+                <input type="text" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Sporočilo</label>
+                <textarea class="form-control" rows="4"></textarea>
+            </div>
+
+            <button type="submit" class="btn-main">Pošlji</button>
+        </form>
+    </div>
+
 </div>
