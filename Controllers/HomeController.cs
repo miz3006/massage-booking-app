@@ -16,10 +16,10 @@ namespace MasazeBooking.Controllers
 
         public IActionResult Index()
         {
-            // št. masaž iz tabele dbo.masaze
+            
             ViewBag.ServicesCount = _context.Masaze.Count();
 
-            // št. uporabnikov iz AspNetUsers
+           
             ViewBag.ClientsCount = _context.Users.Count();
 
             return View();

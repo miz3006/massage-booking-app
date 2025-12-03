@@ -34,7 +34,7 @@ namespace MassageStudio.Controllers
                 return View();
             }
 
-            // poskusi prijavo z email + password
+            
             var result = await _signInManager.PasswordSignInAsync(
                 userName: email,     // UserName = Email
                 password: password,
@@ -66,27 +66,27 @@ namespace MassageStudio.Controllers
                 return View();
             }
 
-            // Ustvari novega uporabnika v ASPNETUSERS
+        
             var user = new ApplicationUser
             {
                 UserName = email,
                 Email = email,
                 FirstName = firstName,
                 LastName = lastName,
-                PhoneNumber = phone      // telefonska se shrani v PhoneNumber
-                // City = ...
+                PhoneNumber = phone      
+                
             };
 
             var result = await _userManager.CreateAsync(user, password);
 
             if (result.Succeeded)
             {
-                // opcijsko: avtomatsko prijavi
+                
                 await _signInManager.SignInAsync(user, isPersistent: false);
                 return RedirectToAction("Index", "Home");
             }
 
-            // če je kaj narobe (slabo geslo, email že obstaja ...)
+            
             foreach (var error in result.Errors)
             {
                 ModelState.AddModelError(string.Empty, error.Description);

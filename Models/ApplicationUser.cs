@@ -9,8 +9,7 @@ namespace MassageStudio.Models
         public string? LastName  { get; set; }
         public string? City      { get; set; }
 
-        // Alias na PhoneNumber, da view-i lahko uporabljajo .Phone
-        // in EF NE išče stolpca "Phone" v bazi
+    
         [NotMapped]
         public string? Phone
         {
