@@ -1697,4 +1697,4 @@ C:/projekti/webapp-masaze/bin/Debug/net10.0/zh-Hant/Microsoft.CodeAnalysis.Scrip
 /Users/mizic24/Desktop/faks/IS-Web/webapp-masaze/obj/Debug/net10.0/MasazeBooking.pdb
 /Users/mizic24/Desktop/faks/IS-Web/webapp-masaze/obj/Debug/net10.0/MasazeBooking.genruntimeconfig.cache
 /Users/mizic24/Desktop/faks/IS-Web/webapp-masaze/obj/Debug/net10.0/ref/MasazeBooking.dll
-/Users/mizic24/Desktop/faks/IS-Web/webapp-masaze/obj/Debug/net10.0/compressed/q5fw7a99z9-{0}-87t2c5p23b-87t2c5p23b.gz
+/Users/mizic24/Desktop/faks/IS-Web/webapp-masaze/obj/Debug/net10.0/compressed/q5fw7a99z9-{0}-w7scmtpset-w7scmtpset.gz

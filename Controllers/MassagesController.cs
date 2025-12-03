@@ -38,7 +38,7 @@ namespace MasazeBooking.Controllers
                 return View(masaza);
             }
 
-            // ročno generiramo ID (ker stolpec ni identity)
+            
             int nextId = _context.Masaze.Any()
                 ? _context.Masaze.Max(m => m.IdMasaze) + 1
                 : 1;

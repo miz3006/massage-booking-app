@@ -11,6 +11,6 @@ namespace MassageStudio.Data
         {
         }
 
-        public DbSet<Masaza> Masaze { get; set; }   // 👈 to imamo
+        public DbSet<Masaza> Masaze { get; set; }  
     }
 }

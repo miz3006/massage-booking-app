@@ -26,7 +26,6 @@ body {
   margin-bottom: 60px;
 }
 
-/* ------------------ LOGIN / REGISTER ------------------ */
 
 .form-floating > .form-control-plaintext::placeholder,
 .form-floating > .form-control::placeholder {
@@ -149,7 +148,6 @@ body.auth-background main {
   text-decoration: underline;
 }
 
-/* ------------------ HERO (HOME) ------------------ */
 
 .hero {
   position: relative;
@@ -167,9 +165,8 @@ body.auth-background main {
   backdrop-filter: blur(1px);
 }
 
-/* ------------------ NAVBAR (hero-nav) ------------------ */
 
-/* privzeto – za vse strani razen home: bel navbar, temen tekst */
+
 .hero-nav {
   position: relative;
   z-index: 10;
@@ -190,7 +187,7 @@ body.auth-background main {
   padding: 0 24px;
 }
 
-/* logo + linki – temni (subpage) */
+
 .logo {
   font-weight: 700;
   font-size: 20px;
@@ -233,7 +230,7 @@ body.auth-background main {
   background: #ff9f67;
 }
 
-/* HOME – navbar transparenten, bel tekst */
+
 body.home-page .hero-nav {
   background: transparent;
   border-bottom: none;
@@ -244,12 +241,10 @@ body.home-page .nav-links a {
   color: #ffffff;
 }
 
-/* po želji skrij navbar na login/register straneh */
 body.auth-background .hero-nav {
   display: none;
 }
 
-/* ------------------ HERO CONTENT ------------------ */
 
 .hero-content {
   position: relative;
@@ -291,7 +286,6 @@ body.auth-background .hero-nav {
   background: #ff9f67;
 }
 
-/* ------------------ SECTIONS ------------------ */
 
 .section {
   padding: 60px 0;
@@ -306,7 +300,6 @@ body.auth-background .hero-nav {
   margin-bottom: 12px;
 }
 
-/* odstranimo bele robove na home */
 body.home-page .container {
   max-width: 100% !important;
   padding-left: 0 !important;
@@ -318,7 +311,6 @@ body.home-page main {
   margin: 0 !important;
 }
 
-/* subpage header (O nas ipd., če ga uporabljaš) */
 body.subpage main {
   padding-top: 0 !important;
 }
@@ -340,7 +332,6 @@ body.subpage main {
   font-size: 18px;
 }
 
-/* HOME – navbar transparenten in bel tekst */
 body.home-page .hero-nav {
   background: transparent !important;
   border-bottom: none;
@@ -351,9 +342,7 @@ body.home-page .nav-links a {
   color: #ffffff !important;
 }
 
-/* ===== NAVBAR – GLOBAL ===== */
 
-/* bel navbar na vseh straneh */
 .hero-nav {
   position: fixed;
   top: 0;
@@ -377,7 +366,6 @@ body.home-page .nav-links a {
   padding: 0 24px;
 }
 
-/* logo + linki – privzeto temni */
 .hero-nav .logo {
   font-weight: 700;
   font-size: 20px;
@@ -421,7 +409,6 @@ body.home-page .nav-links a {
   background: #ff9f67;
 }
 
-/* ===== HOME – navbar transparenten in bel tekst ===== */
 
 body.home-page .hero-nav {
   background: transparent !important;
@@ -433,21 +420,19 @@ body.home-page .hero-nav .nav-links a {
   color: #ffffff !important;
 }
 
-/* da se hero ne skrije za fixed navbarjem na drugih straneh */
 body:not(.home-page) main {
   padding-top: 80px;
 }
 
-/* na home stran hero že začne pod nav barom, zato padding ni potreben */
+
 body.home-page main {
   padding-top: 0;
 }
 
 body.home-page .hero {
-  padding-top: 120px;   /* ODMIK – lahko daš več ali manj */
+  padding-top: 120px;   
 }
 
-/* ------------ MASAŽE – PODSTRAN ----------- */
 
 .massage-page {
   max-width: 1000px;
@@ -456,7 +441,7 @@ body.home-page .hero {
 }
 
 .massage-card {
-  background: #e6b78a;         /* beige */
+  background: #e6b78a;         
   border-radius: 16px;
   padding: 30px 40px;
   margin-bottom: 30px;
@@ -522,26 +507,24 @@ body.home-page .hero {
   background: #ff9f67;
 }
 
-/* ODMIK PODSTRANI ZARADI FIXED NAVBARJA */
+
 body.subpage main {
   padding-top: 120px !important;
 }
 
-/* Podstrani (masaže, o nas, ...) naj bodo čez celo širino */
+
 body.subpage .container {
   max-width: 100% !important;
   padding-left: 0 !important;
   padding-right: 0 !important;
 }
 
-/* Raztegnemo subpage čez celo širino */
 body.subpage .container {
   max-width: 100% !important;
   padding-left: 0 !important;
   padding-right: 0 !important;
 }
 
-/* Header za podstrani */
 .subpage-hero {
   background: #f5f2ef;
   padding: 80px 0 60px;
@@ -556,7 +539,7 @@ body.subpage .container {
   margin: 0;
 }
 
-/* Vsebina subpages */
+
 .subpage-content {
   max-width: 900px;
   margin: 40px auto;
@@ -565,7 +548,7 @@ body.subpage .container {
   line-height: 1.7;
 }
 
-/* Posamezni člani osebja */
+
 .staff-member {
   background: #f7f2ef;
   padding: 24px 28px;
@@ -578,7 +561,7 @@ body.subpage .container {
   font-size: 22px;
 }
 
-/* Kontakt stran – kartica z informacijami */
+
 .contact-card {
   background: #f7f2ef;
   padding: 24px 28px;
@@ -591,7 +574,7 @@ body.subpage .container {
   font-size: 22px;
 }
 
-/* Kontakt obrazec */
+
 .contact-form {
   background: #fff;
   padding: 28px;
@@ -605,35 +588,33 @@ body.subpage .container {
   font-size: 22px;
 }
 
-/* Razteg čez ekran */
+
 body.subpage .container {
   max-width: 100% !important;
   padding-left: 0 !important;
   padding-right: 0 !important;
 }
 
-/* Zgornji hero lahko ostane, kot je že */
+
 .subpage-hero {
   text-align: center;
   padding: 60px 20px;
 }
 
-/* Zunanja sekcija podstrani (ozadje, razmik od roba) */
+
 .subpage-content {
   padding: 20px 0 40px 0;
 }
 
-/* Notranji blok z dejanskim tekstom – to centriramo in zožamo */
 .subpage-inner {
-  max-width: 800px;     /* koliko širok je stolpec z tekstom */
-  margin: 0 auto;       /* to ga da na sredino */
-  padding: 0 16px;      /* malo prostora levo/desno */
+  max-width: 800px;     
+  margin: 0 auto;      
+  padding: 0 16px;      
 }
 
-/* Stil za tekst */
 .subpage-inner p,
 .subpage-inner ul {
   line-height: 1.7;
   font-size: 1rem;
-  text-align: left;     /* če želiš, da je poravnan levo (ne centrirano) */
+  text-align: left;     
 }
