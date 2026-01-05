@@ -1,0 +1,19 @@
+@{
+    ViewData["Title"] = "Rezervacija potrjena";
+}
+
+<div id="confirmation" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <div class="bg-white p-8 rounded-xl shadow-lg flex flex-col items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-green-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+        <h2 class="text-2xl font-bold text-green-600">Rezervacija potrjena!</h2>
+    </div>
+</div>
+
+<script>
+    // Po 3 sekundah preusmeri nazaj na začetno stran
+    setTimeout(() => {
+        window.location.href = '/';
+    }, 3000);
+</script>

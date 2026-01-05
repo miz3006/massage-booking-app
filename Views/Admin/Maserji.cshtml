@@ -1,0 +1,53 @@
+@model IEnumerable<MassageStudio.Models.Maser>
+
+<h1>Osebje</h1>
+
+<a asp-action="UstvariMaserja" class="btn btn-primary mb-3">
+    Dodaj maserja
+</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Slika</th>
+            <th>Ime</th>
+            <th>Priimek</th>
+            <th>Email</th>
+            <th>Opis</th>
+            <th>Datum rojstva</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var m in Model)
+    {
+        <tr>
+            <td>
+                @if (!string.IsNullOrEmpty(m.slika))
+                {
+                    <img src="~/images/maserji/@m.slika" 
+                         alt="@m.imeMaserja" 
+                         style="width:50px;height:50px;" />
+                }
+                else
+                {
+                    <img src="~/images/maserji/default.png" 
+                         alt="Default" 
+                         style="width:50px;height:50px;" />
+                }
+            </td>
+            <td>@m.imeMaserja</td>
+            <td>@m.priimekMaserja</td>
+            <td>@m.eMail</td>
+            <td>@m.opis</td>
+            <td>@m.datumRojstva.ToString("dd.MM.yyyy")</td>
+            <td>
+                <form asp-action="Delete" method="post" style="display:inline;">
+                    <input type="hidden" name="id" value="@m.IdMaserja" />
+                    <button class="btn btn-danger btn-sm">Izbriši</button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

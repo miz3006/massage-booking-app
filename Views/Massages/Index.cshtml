@@ -1,3 +1,4 @@
+@using Microsoft.AspNetCore.Identity
 @model IEnumerable<Masaza>
 
 @{
@@ -15,19 +16,43 @@
 
     @foreach (var m in Model)
     {
-        <div class="massage-card">
-            <div class="massage-info">
-                <h3>@m.NazivMasaze</h3>
-                <p>
-                    @m.Opis
-                </p>
-            </div>
+         if (Context.User.Identity?.IsAuthenticated == true)
+        {
+            <a asp-controller="Rezervacija"
+            asp-action="Create"
+            asp-route-idMasaze="@m.IdMasaze"
+            class="massage-card-link">
 
-            <div class="massage-meta">
-                <span class="duration">@m.TrajanjeMasaze min</span>
-                <span class="price">@m.Cena EUR</span>
+                <div class="massage-card">
+                    <div class="massage-info">
+                        <h3>@m.NazivMasaze</h3>
+                        <p>@m.Opis</p>
+                    </div>
+
+                    <div class="massage-meta">
+                        <span>@m.TrajanjeMasaze min</span>
+                        <span>@m.Cena €</span>
+                    </div>
+                </div>
+            </a>
+        }
+        else
+        {
+            <div class="massage-card massage-disabled"
+                onclick="showLoginModal()">
+
+                <div class="massage-info">
+                    <h3>@m.NazivMasaze</h3>
+                    <p>@m.Opis</p>
+                </div>
+
+                <div class="massage-meta">
+                    <span>@m.TrajanjeMasaze min</span>
+                    <span>@m.Cena €</span>
+                </div>
             </div>
-        </div>
+        }
+    
     }
 
     <div class="center-btn">
@@ -36,4 +61,18 @@
         </a>
     </div>
     
+</div>
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <h2>Nisi prijavljen</h2>
+        <p>Za rezervacijo se moraš prijaviti ali registrirati.</p>
+
+        <a href="/Identity/Account/Login" class="btn-main modal-btn">
+            PRIJAVA
+        </a>
+
+        <button onclick="closeLoginModal()" class="btn-secondary modal-btn">
+            Zapri
+        </button>
+    </div>
 </div>

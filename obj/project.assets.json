@@ -7236,19 +7236,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/mizic24/.nuget/packages/": {}
+    "C:\\Users\\Aleks Ašanin\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/mizic24/Desktop/faks/IS-Web/webapp-masaze/MasazeBooking.csproj",
+      "projectUniqueName": "C:\\projekti\\webapp-masaze\\MasazeBooking.csproj",
       "projectName": "MasazeBooking",
-      "projectPath": "/Users/mizic24/Desktop/faks/IS-Web/webapp-masaze/MasazeBooking.csproj",
-      "packagesPath": "/Users/mizic24/.nuget/packages/",
-      "outputPath": "/Users/mizic24/Desktop/faks/IS-Web/webapp-masaze/obj/",
+      "projectPath": "C:\\projekti\\webapp-masaze\\MasazeBooking.csproj",
+      "packagesPath": "C:\\Users\\Aleks Ašanin\\.nuget\\packages\\",
+      "outputPath": "C:\\projekti\\webapp-masaze\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/mizic24/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\Aleks Ašanin\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
@@ -7338,7 +7338,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.100/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

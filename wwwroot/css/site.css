@@ -618,3 +618,49 @@ body.subpage .container {
   font-size: 1rem;
   text-align: left;     
 }
+.massage-card.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.massage-card-link {
+    text-decoration: none; /* odstrani underline */
+    color: inherit;        /* ohrani barvo teksta */
+    display: block;        /* da zavzame prostor kot div */
+}
+.massage-card-link:hover .massage-card {
+    transform: scale(1.02);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    transition: 0.2s;
+}
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 999;
+}
+.modal-btn {
+    display: block;
+    margin-top: 15px; 
+}
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    max-width: 400px;
+    margin: 15% auto;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.massage-card.disabled {
+    background-color: #f2d6b8; /* malo svetlejša verzija */
+}
+
+.massage-card.disabled h3,
+.massage-card.disabled p,
+.massage-card.disabled span {
+    color: #8a8a8a;
+}
+
+

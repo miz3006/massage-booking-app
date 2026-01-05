@@ -20,11 +20,25 @@
             <div class="logo">MassageStudio</div>
 
             <nav class="nav-links">
-                <a asp-controller="Home" asp-action="Index">Domov</a>
-                <a asp-controller="AboutUs" asp-action="Index">O nas</a>
-                <a asp-controller="Massages" asp-action="Index">Masaže</a>
-                <a asp-controller="Stuff" asp-action="Index">Osebje</a>
-                <a asp-controller="Contact" asp-action="Index">Kontakt</a>
+                @if (User.IsInRole("Admin"))
+                {
+                    <!-- Admin meni -->
+                    <a asp-controller="Admin" asp-action="Maserji">Osebje</a>
+                    <a asp-controller="Admin" asp-action="Termini">Upravljanje terminov</a>
+                    <a asp-controller="Admin" asp-action="Masaze">Upravljanje masaž</a>
+                    <a asp-controller="Admin" asp-action="Rezervacije">Rezervacije</a>
+                    <a asp-controller="Admin" asp-action="Stranke">Stranke</a>
+                    <a asp-controller="Admin" asp-action="Obvestila">Obvestila</a>
+                }
+                else
+                {
+                    <!-- Navadni uporabnik meni -->
+                    <a asp-controller="Home" asp-action="Index">Domov</a>
+                    <a asp-controller="AboutUs" asp-action="Index">O nas</a>
+                    <a asp-controller="Massages" asp-action="Index">Masaže</a>
+                    <a asp-controller="Maser" asp-action="Index">Osebje</a>
+                    <a asp-controller="Contact" asp-action="Index">Kontakt</a>
+                }
             </nav>
 
             @if (User.Identity?.IsAuthenticated ?? false)

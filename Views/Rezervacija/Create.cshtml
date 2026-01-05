@@ -1,0 +1,125 @@
+@model MassageStudio.Models.Rezervacija
+@using System.Security.Claims
+
+<h2 class="text-3xl font-bold text-orange-700 mb-6 text-center">Rezerviraj masažo</h2>
+
+<form asp-action="Create" asp-controller="Rezervacija" method="post" class="space-y-4">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="UserId" value="@User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value" />
+    <div asp-validation-summary="All" class="text-red-600"></div>
+
+
+    <input type="hidden" asp-for="MasazaID" value="@Model.MasazaID" />
+
+    <div class="grid grid-cols-2 gap-4">
+
+        <div>
+            <label class="block font-semibold text-orange-800">Ime</label>
+            <input asp-for="Ime" class="w-full rounded-lg border border-orange-300 p-2 bg-orange-50" readonly />
+        </div>
+        <div>
+            <label class="block font-semibold text-orange-800">Priimek</label>
+            <input asp-for="Priimek" class="w-full rounded-lg border border-orange-300 p-2 bg-orange-50" readonly />
+        </div>
+    </div>
+
+    <div>
+        <label class="block font-semibold text-orange-800">Email</label>
+        <input asp-for="Email" class="w-full rounded-lg border border-orange-300 p-2 bg-orange-50" readonly />
+    </div>
+
+    <div>
+        <label class="block font-semibold text-orange-800">Telefon</label>
+        <input asp-for="Telefon" class="w-full rounded-lg border border-orange-300 p-2 bg-orange-50" readonly />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Maser</label>
+        <select id="maserSelect" asp-for="MaserID" class="form-select" asp-items="@(new SelectList((IEnumerable<MassageStudio.Models.Maser>)ViewBag.Maserji, "IdMaserja", "imeMaserja"))">
+            <option value="">-- Izberi maserja --</option>
+        </select>
+        <span asp-validation-for="MaserID" class="text-danger"></span>
+    </div>
+    <div>
+        <label class="block font-semibold text-orange-800">Datum</label>
+        <input type="date" id="calendar" asp-for="Datum" class="w-full rounded-lg border border-orange-300 p-2 bg-white" disabled/>
+    </div>
+
+    <div>
+        <label class="block font-semibold text-orange-800">Čas (vsaki 2 uri)</label>
+        <select id="casSelect" name="CasPrihoda" class="w-full rounded-lg border border-orange-300 p-2 bg-white" disabled>
+        </select>
+    </div>
+
+    <button type="submit" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded-xl shadow-lg transition-all">
+        Potrdi rezervacijo
+    </button>
+</form>
+@section Scripts {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        async function loadTermini() {
+            const idMasaze = @Model.MasazaID;
+            let termini = [];
+
+            const maserSelect = document.getElementById("maserSelect");
+            const calendarInput = document.getElementById("calendar");
+            const casSelect = document.getElementById("casSelect");
+
+            // Inicialno onemogočimo datum in čas
+            calendarInput.disabled = true;
+            casSelect.disabled = true;
+
+            // Funkcija za pridobitev terminov za določenega maserja
+            async function fetchTermini(maserID) {
+                if (!maserID) return [];
+                const res = await fetch(`/Rezervacija/GetEvents?idMasaze=${idMasaze}&maserID=${maserID}`);
+                return await res.json();
+            }
+
+            // Ko uporabnik izbere maserja
+            maserSelect.addEventListener("change", async function() {
+                const maserID = this.value;
+
+                // Če ni izbranega maserja, počistimo datum in čas
+                if (!maserID) {
+                    calendarInput.value = "";
+                    calendarInput.disabled = true;
+                    casSelect.innerHTML = "";
+                    casSelect.disabled = true;
+                    return;
+                }
+
+                // Omogočimo datum in čas
+                calendarInput.disabled = false;
+                casSelect.disabled = false;
+
+                // Naložimo termine za izbranega maserja
+                termini = await fetchTermini(maserID);
+
+                // Dobimo samo unikatne datume
+                const datumi = [...new Set(termini.map(t => t.start.split('T')[0]))];
+
+                // Nastavimo flatpickr
+                flatpickr(calendarInput, {
+                    dateFormat: "Y-m-d",
+                    enable: datumi,
+                    onChange: function(selectedDates, dateStr) {
+                        // Ko uporabnik izbere datum, napolnimo select box s termini
+                        const terminiNaDatum = termini.filter(t => t.start.startsWith(dateStr));
+                        casSelect.innerHTML = "";
+                        terminiNaDatum.forEach(t => {
+                            const time = t.start.split('T')[1].substring(0,5);
+                            const option = document.createElement("option");
+                            option.value = time;
+                            option.textContent = time;
+                            casSelect.appendChild(option);
+                        });
+                    }
+                });
+            });
+        }
+
+        loadTermini();
+    </script>
+}

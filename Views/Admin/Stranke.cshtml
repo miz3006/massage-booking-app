@@ -1,0 +1,45 @@
+@model IEnumerable<ApplicationUser>
+
+<h1>Uporabniki</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Ime</th>
+            <th>Priimek</th>
+            <th>Email</th>
+            <th>Telefon</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var u in Model)
+        {
+            <tr>
+                <td>@u.FirstName</td>
+                <td>@u.LastName</td>
+                <td>@u.Email</td>
+                <td>@u.PhoneNumber</td>
+                <td>
+                    @if (u.Email != "admin@gmail.com")
+                    {
+                        <form asp-action="DeleteUser" method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@u.Id" />
+                            <button class="btn btn-danger btn-sm">
+                                Izbriši
+                            </button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<section id="statistika" class="section">
+    <div class="hero-container">
+        <div class="alert alert-success">
+            Število strank v sistemu: <strong>@ViewBag.ClientsCount</strong>
+        </div>
+    </div>
+</section>

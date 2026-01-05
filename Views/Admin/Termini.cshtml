@@ -1,0 +1,37 @@
+@model IEnumerable<MassageStudio.Models.Termin>
+
+<h1>Termini</h1>
+
+<a asp-action="UstvariTermin" class="btn btn-primary mb-3">
+    Dodaj termin
+</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Datum</th>
+            <th>Ura</th>
+            <th>Maser</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var t in Model)
+    {
+        <tr>
+            <td>@t.Datum.ToString("dd.MM.yyyy")</td>
+            <td>@t.Cas_prihoda.ToString(@"hh\:mm")</td>
+            <td>@(t.Maser != null ? t.Maser.imeMaserja + " " + t.Maser.priimekMaserja : "Ni določen")</td>
+            <td>@(t.Zaseden ? "Zaseden" : "Prost")</td>
+            <td>
+                <form asp-action="DeleteTermin" method="post">
+                    <input type="hidden" name="id" value="@t.IdTermin" />
+                    <button class="btn btn-danger btn-sm">
+                        Izbriši
+                    </button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

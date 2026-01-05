@@ -1,0 +1,50 @@
+@model IEnumerable<MassageStudio.Models.Masaza>
+
+<h1>Masaže</h1>
+
+<a asp-action="UstvariMasazo" class="btn btn-primary mb-3">
+    Dodaj masažo
+</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Naziv</th>
+            <th>Trajanje (min)</th>
+            <th>Cena (€)</th>
+            <th>Vrsta</th>
+            <th>Kratica</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var m in Model)
+        {
+            <tr>
+                <td>@m.IdMasaze</td>
+                <td>@m.NazivMasaze</td>
+                <td>@m.TrajanjeMasaze</td>
+                <td>@m.Cena</td>
+                <td>@m.Vrsta</td>
+                <td>@m.Kratica</td>
+                <td>
+                    <form asp-action="DeleteMasaza" method="post" style="display:inline;">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@m.IdMasaze" />
+                        <button class="btn btn-danger btn-sm">
+                            Izbriši
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<section id="statistika" class="section">
+    <div class="hero-container">
+        <div class="alert alert-info">
+            Število masaž v sistemu: <strong>@ViewBag.ServicesCount</strong>
+        </div>
+    </div>
+</section>

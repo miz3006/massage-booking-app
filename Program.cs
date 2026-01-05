@@ -26,7 +26,28 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
+// naredimo admin rolo in dodamo admin uporabnika
+await using (var scope = app.Services.CreateAsyncScope())
+{
+    var services = scope.ServiceProvider;
 
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+
+    // Ustvari rolo Admin, če še ne obstaja
+    if (!await roleManager.RoleExistsAsync("Admin"))
+    {
+        await roleManager.CreateAsync(new IdentityRole("Admin"));
+    }
+
+    // Določi določenega uporabnika kot Admin
+    var adminEmail = "admin@gmail.com"; // ← tukaj daš pravi admin email
+    var adminUser = await userManager.FindByEmailAsync(adminEmail);
+    if (adminUser != null && !await userManager.IsInRoleAsync(adminUser, "Admin"))
+    {
+        await userManager.AddToRoleAsync(adminUser, "Admin");
+    }
+}
 // Error handling + HSTS v productionu
 if (!app.Environment.IsDevelopment())
 {

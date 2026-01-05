@@ -1,0 +1,44 @@
+@using Microsoft.CodeAnalysis.CSharp.Syntax
+@model IEnumerable<Maser>
+
+
+@{
+    ViewData["Title"] = "Osebje";
+    ViewData["BodyClass"] = "subpage";
+}
+
+<div class="subpage-hero">
+    <h1>Osebje</h1>
+</div>
+
+<div class="subpage-content staff-page">
+
+    <p>
+        Naš salon združuje strokovnjake z dolgoletnimi izkušnjami na področju masaž.
+        Vsak član osebja ima svoj profil s predstavitvijo in izkušnjami.
+    </p>
+
+    @foreach (var maser in Model)
+    {
+        <div class="staff-member">
+            <h3>@maser.imeMaserja @maser.priimekMaserja</h3>
+
+            <p>@maser.opis</p>
+
+            @if (!string.IsNullOrWhiteSpace(maser.slika))
+            {
+                <img src="@Url.Content($"~/images/{maser.slika}")"
+                    alt="@maser.imeMaserja"
+                    class="staff-image" />
+            }
+            else
+            {
+                <img src="@Url.Content("~/images/default.png")"
+                    alt="Default Image"
+                    class="staff-image" />
+            }
+
+        </div>
+    }
+
+</div>

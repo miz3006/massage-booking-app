@@ -1,0 +1,44 @@
+@model IEnumerable<Rezervacija>
+
+@{
+    ViewData["Title"] = "Rezervacije";
+}
+
+<h1>Vse rezervacije</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Ime</th>
+            <th>Email</th>
+            <th>Telefon</th>
+            <th>Datum</th>
+            <th>Čas</th>
+            <th>Maser</th>
+            <th>Masaža</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var r in Model)
+    {
+        <tr>
+            <td>@r.Ime @r.Priimek</td>
+            <td>@r.Email</td>
+            <td>@r.Telefon</td>
+            <td>@r.Datum.ToString("dd.MM.yyyy")</td>
+            <td>@r.CasPrihoda</td>
+            <td>@r.Maser?.imeMaserja @r.Maser?.priimekMaserja</td>
+            <td>@r.Masaza?.NazivMasaze</td>
+            <td>
+                <form asp-action="DeleteRezervacija" method="post">
+                    <input type="hidden" name="id" value="@r.IdRez" />
+                    <button class="btn btn-danger btn-sm">
+                        Izbriši
+                    </button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

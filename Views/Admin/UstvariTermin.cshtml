@@ -1,0 +1,43 @@
+@model Termin
+
+@{
+    ViewData["Title"] = "Ustvari termin";
+}
+
+<h1>Ustvari termin</h1>
+
+@* Prikaz TempData uspeha *@
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+@* Prikaz napak *@
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+<form asp-action="UstvariTermin" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="mb-3">
+        <label class="form-label">Datum</label>
+        <input asp-for="Datum" type="date" class="form-control" />
+        @Html.ValidationMessageFor(m => m.Datum, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Ura</label>
+        <input asp-for="Cas_prihoda" type="time" class="form-control" />
+        @Html.ValidationMessageFor(m => m.Cas_prihoda, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Maser</label>
+        <select asp-for="MaserID" class="form-control" asp-items="ViewBag.Maserji">
+            <option value="">-- Izberi maserja --</option>
+        </select>
+        @Html.ValidationMessageFor(m => m.MaserID, "", new { @class = "text-danger" })
+    </div>
+
+    <button type="submit" class="btn btn-success">Shrani</button>
+    <a asp-action="Termini" class="btn btn-secondary">Nazaj</a>
+</form>

@@ -1,0 +1,39 @@
+@model IEnumerable<Obvestilo>
+
+@{
+    ViewData["Title"] = "Obvestila";
+}
+
+<h1>Obvestila uporabnikov</h1>
+
+<div style="max-height: 75vh; overflow-y: auto;">
+
+@foreach (var o in Model)
+{
+    <div class="card mb-3 shadow-sm">
+        <div class="card-header d-flex justify-content-between">
+            <div>
+                <strong>@o.Naslov</strong><br />
+                <small class="text-muted">
+                    Od: @o.User.FirstName @o.User.LastName @o.User.Email <br />
+                    @o.DatumObjave.ToString("dd.MM.yyyy HH:mm")
+                </small>
+            </div>
+
+            <form asp-action="DeleteObvestilo" method="post">
+                <input type="hidden" name="id" value="@o.IdObvestila" />
+                <button class="btn btn-sm btn-danger">
+                    Izbriši
+                </button>
+            </form>
+        </div>
+
+        <div class="card-body">
+            <p style="white-space: pre-wrap;">
+                @o.Vsebina
+            </p>
+        </div>
+    </div>
+}
+
+</div>

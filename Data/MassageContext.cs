@@ -12,5 +12,12 @@ namespace MassageStudio.Data
         }
 
         public DbSet<Masaza> Masaze { get; set; }  
+        public DbSet<Rezervacija> Rezervacije { get; set; }
+        public DbSet<Termin> Termini { get; set; }
+        public DbSet<Maser> Maserji { get; set; }
+        public DbSet<Obvestilo> Obvestila { get; set; }
+
+
+
     }
 }

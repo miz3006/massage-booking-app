@@ -1,0 +1,59 @@
+@model MassageStudio.Models.Maser
+
+@{
+    ViewData["Title"] = "Dodaj maserja";
+}
+
+<h1>Dodaj maserja</h1>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<form asp-action="UstvariMaserja" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="mb-3">
+        <label class="form-label">Ime</label>
+        <input asp-for="imeMaserja" class="form-control" />
+        <span asp-validation-for="imeMaserja" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Priimek</label>
+        <input asp-for="priimekMaserja" class="form-control" />
+        <span asp-validation-for="priimekMaserja" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input asp-for="eMail" type="email" class="form-control" />
+        <span asp-validation-for="eMail" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Opis</label>
+        <textarea asp-for="opis" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="opis" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Datum rojstva</label>
+        <input asp-for="datumRojstva" type="date" class="form-control" />
+        <span asp-validation-for="datumRojstva" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Slika (ime datoteke)</label>
+        <input asp-for="slika" class="form-control" placeholder="npr. maser1.png" />
+        <span asp-validation-for="slika" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">Shrani</button>
+    <a asp-action="Maserji" class="btn btn-secondary">Nazaj</a>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

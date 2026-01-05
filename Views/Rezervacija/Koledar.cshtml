@@ -1,0 +1,23 @@
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js"></script>
+
+<div id="calendar"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var calendarEl = document.getElementById('calendar');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+
+        events: '/Rezervacija/GetEvents',
+
+        dateClick: function(info) {
+            // ob kliku na datum → odpre izbiro ure
+            window.location.href = '/Rezervacija/Create?idMasaze=1&datum=' + info.dateStr;
+        }
+    });
+
+    calendar.render();
+});
+</script>
