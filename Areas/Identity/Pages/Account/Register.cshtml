@@ -2,82 +2,122 @@
 @model RegisterModel
 @{
     ViewData["Title"] = "Ustvari nov račun";
-    ViewData["BodyClass"] = "auth-background"; 
+    ViewData["BodyClass"] = "auth-background register-background"; 
 }
 
+<div class="register-split-wrapper">
+    <div class="register-form-area">
+        <div class="register-content-inner">
+            <h1 class="register-title">USTVARI NOV RAČUN</h1>
 
-<div class="register-page">
-    <div class="register-card">
-        <h1 class="register-title">USTVARI NOV RAČUN</h1>
+            <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
 
-        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <div class="form-custom mb-3">
-                        <input asp-for="Input.FirstName" class="form-control" placeholder="Ime..." />
-                        <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                <div class="row gx-2">
+                    <div class="col-6">
+                        <div class="form-custom-group mb-3">
+                            <label>IME</label>
+                            <input asp-for="Input.FirstName" class="form-control" placeholder="Janez" />
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-custom-group mb-3">
+                            <label>PRIIMEK</label>
+                            <input asp-for="Input.LastName" class="form-control" placeholder="Novak" />
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="form-custom mb-3">
-                        <input asp-for="Input.LastName" class="form-control" placeholder="Priimek..." />
-                        <span asp-validation-for="Input.LastName" class="text-danger"></span>
-                    </div>
+
+                <div class="form-custom-group mb-3">
+                    <label>E-MAIL</label>
+                    <input asp-for="Input.Email" class="form-control" placeholder="ime@primer.si" />
                 </div>
+
+                <div class="form-custom-group mb-3">
+                    <label>TELEFON (GSM)</label>
+                    <input asp-for="Input.PhoneNumber" class="form-control" placeholder="041 123 456" />
+                </div>
+
+                <div class="form-custom-group mb-3">
+                    <label>GESLO</label>
+                    <input asp-for="Input.Password" type="password" class="form-control" placeholder="••••••••" />
+                </div>
+
+                <div class="form-custom-group mb-4">
+                    <label>POTRDI GESLO</label>
+                    <input asp-for="Input.ConfirmPassword" type="password" class="form-control" placeholder="••••••••" />
+                </div>
+
+                <div class="form-check mb-4 custom-check">
+                    <input class="form-check-input" type="checkbox" id="terms" />
+                    <label class="form-check-label" for="terms">
+                        Strinjam se s <a href="#" class="terms-link">pogoji uporabe</a>
+                    </label>
+                </div>
+
+                <button id="registerSubmit" type="submit" class="btn-register-main w-100" disabled>
+                    USTVARITE PROFIL
+                </button>
+
+                <p class="login-prompt mt-4">
+                    Imate že ustvarjen profil? <a asp-page="./Login">Prijavi se tukaj</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <div class="register-visual-area">
+        <div class="visual-overlay">
+            <div class="visual-text">
+                <h2>Vaš trenutek sprostitve se začne tukaj</h2>
+                <p>Pridružite se naši skupnosti in si zagotovite prednost pri rezervacijah.</p>
             </div>
-
-            <div class="form-custom mb-3">
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" placeholder="E-mail..." />
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-
-            <div class="form-custom mb-3">
-                <input asp-for="Input.PhoneNumber" class="form-control" placeholder="GSM..." />
-                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
-            </div>
-
-            <div class="form-custom mb-3">
-                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" placeholder="Geslo..." />
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-
-            <div class="form-custom mb-4">
-                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" placeholder="Potrdi geslo..." />
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
-
-            <div class="form-check mb-4 pogoji_uporabe">
-                <input class="form-check-input" type="checkbox" id="terms" />
-                <label class="form-check-label" for="terms">
-                    Strinjam se s pogoji uporabe
-                </label>
-            </div>
-
-            <button id="registerSubmit" type="submit" class="btn-register w-100" disabled>
-                Ustvarite nov račun
-            </button>
-
-
-            <p class="already mt-4">
-                Imate že ustvarjen profil?
-                <a asp-page="./Login">Prijavi se</a>
-            </p>
-        </form>
+        </div>
     </div>
 </div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-
     <script>
-        const terms = document.getElementById('terms');
-        const registerBtn = document.getElementById('registerSubmit');
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.getElementById('registerForm');
+            const registerBtn = document.getElementById('registerSubmit');
+            const terms = document.getElementById('terms');
+            
+            // Izberemo vsa vnosna polja znotraj forme
+            const inputs = form.querySelectorAll('input[required], input.form-control');
 
-        terms.addEventListener('change', () => {
-            registerBtn.disabled = !terms.checked;
+            function checkForm() {
+                let allFilled = true;
+
+                // Preveri če so tekstovna polja polna
+                inputs.forEach(input => {
+                    if (input.value.trim() === "") {
+                        allFilled = false;
+                    }
+                });
+
+                // Preveri če je checkbox obkljukan
+                if (!terms.checked) {
+                    allFilled = false;
+                }
+
+                // Posodobi gumb
+                if (allFilled) {
+                    registerBtn.disabled = false;
+                    registerBtn.classList.add('is-active');
+                } else {
+                    registerBtn.disabled = true;
+                    registerBtn.classList.remove('is-active');
+                }
+            }
+
+            // Poslušaj vpisovanje in klike
+            form.addEventListener('input', checkForm);
+            terms.addEventListener('change', checkForm);
+            
+            // Zaženemo enkrat ob nalaganju (če brskalnik sam izpolni polja)
+            checkForm();
         });
     </script>
 }
-

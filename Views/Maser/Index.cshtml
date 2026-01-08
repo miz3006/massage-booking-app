@@ -1,10 +1,8 @@
-@using Microsoft.CodeAnalysis.CSharp.Syntax
 @model IEnumerable<Maser>
-
 
 @{
     ViewData["Title"] = "Osebje";
-    ViewData["BodyClass"] = "subpage";
+    ViewData["BodyClass"] = "subpage staff-page";
 }
 
 <div class="subpage-hero">
@@ -13,32 +11,63 @@
 
 <div class="subpage-content staff-page">
 
-    <p>
+    <p class="staff-intro">
         Naš salon združuje strokovnjake z dolgoletnimi izkušnjami na področju masaž.
         Vsak član osebja ima svoj profil s predstavitvijo in izkušnjami.
     </p>
 
-    @foreach (var maser in Model)
-    {
-        <div class="staff-member">
-            <h3>@maser.imeMaserja @maser.priimekMaserja</h3>
+    <div class="staff-grid">
+        @foreach (var maser in Model)
+        {
+            // 1. Deklariraj spremenljivko (lahko ji daš začetno vrednost null ali prazen niz, da preprečiš error)
+            string imgSrc = ""; 
 
-            <p>@maser.opis</p>
-
-            @if (!string.IsNullOrWhiteSpace(maser.slika))
+            // 2. Logika za določanje poti
+            if (string.IsNullOrWhiteSpace(maser.slika))
             {
-                <img src="@Url.Content($"~/images/{maser.slika}")"
-                    alt="@maser.imeMaserja"
-                    class="staff-image" />
+                imgSrc = Url.Content("~/images/default.png");
+            }
+            else if (maser.slika.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+            {
+                imgSrc = maser.slika; 
+            }
+            else if (maser.slika.StartsWith("/"))
+            {
+                imgSrc = Url.Content("~" + maser.slika);
+            }
+            else if (maser.slika.Contains("/"))
+            {
+                imgSrc = Url.Content("~/" + maser.slika.TrimStart('/'));
             }
             else
             {
-                <img src="@Url.Content("~/images/default.png")"
-                    alt="Default Image"
-                    class="staff-image" />
+                // --- POPRAVEK JE TUKAJ ---
+                // Prej si tukaj imel <img ...>, kar je narobe. 
+                // Moraš samo nastaviti pot do slike, tako kot v zgornjih pogojih.
+                imgSrc = Url.Content($"~/images/maserji/{maser.slika}");
             }
 
-        </div>
-    }
+            // 3. Izris kartice (zdaj ima imgSrc vedno vrednost)
+            <div class="staff-card">
+                <div class="staff-photo">
+                    <img src="@imgSrc"
+                        alt="@($"{maser.imeMaserja} {maser.priimekMaserja}")"
+                        class="staff-image"
+                        asp-append-version="true" />
+
+                    <div class="staff-namebar">
+                        <div class="staff-name">
+                            @maser.imeMaserja @maser.priimekMaserja
+                        </div>
+                    </div>
+                </div>
+
+                @if (!string.IsNullOrWhiteSpace(maser.opis))
+                {
+                    <p class="staff-desc">@maser.opis</p>
+                }
+            </div>
+        }
+    </div>
 
 </div>

@@ -1,0 +1,95 @@
+@model MassageStudio.Models.Maser
+
+@{
+    ViewData["Title"] = "Uredi maserja";
+    ViewData["BodyClass"] = "subpage admin-page";
+}
+
+<div class="subpage-hero">
+    <div class="container">
+        <h1>UREDI MASERJA</h1>
+    </div>
+</div>
+
+<div class="admin-wrap">
+    <div class="admin-card">
+        <div class="admin-card__head">
+            <div>
+                <h2>Podatki o maserju</h2>
+                <p>Posodobite informacije za izbranega člana ekipe.</p>
+            </div>
+        </div>
+
+        <div class="admin-card__body">
+            <form asp-action="EditMaserja" method="post" enctype="multipart/form-data" class="admin-form-modern">
+                @Html.AntiForgeryToken()
+                
+                @* Skrita polja so nujna za delovanje posodobitve *@
+                <input type="hidden" asp-for="IdMaserja" />
+                <input type="hidden" asp-for="slika" />
+
+                <div class="admin-form-grid">
+                    @* 1. IME *@
+                    <div class="form-group">
+                        <label class="admin-label-small">IME</label>
+                        <input asp-for="imeMaserja" class="admin-input-field" />
+                        <span asp-validation-for="imeMaserja" class="text-danger"></span>
+                    </div>
+
+                    @* 2. PRIIMEK *@
+                    <div class="form-group">
+                        <label class="admin-label-small">PRIIMEK</label>
+                        <input asp-for="priimekMaserja" class="admin-input-field" />
+                        <span asp-validation-for="priimekMaserja" class="text-danger"></span>
+                    </div>
+
+                    @* 3. E-MAIL *@
+                    <div class="form-group">
+                        <label class="admin-label-small">E-MAIL</label>
+                        <input asp-for="eMail" type="email" class="admin-input-field" />
+                        <span asp-validation-for="eMail" class="text-danger"></span>
+                    </div>
+
+                    @* 4. DATUM ROJSTVA *@
+                    <div class="form-group">
+                        <label class="admin-label-small">DATUM ROJSTVA</label>
+                        <input asp-for="datumRojstva" type="date" class="admin-input-field" />
+                        <span asp-validation-for="datumRojstva" class="text-danger"></span>
+                    </div>
+
+                    @* 5. OPIS *@
+                    <div class="form-group full-width">
+                        <label class="admin-label-small">OPIS MASERJA</label>
+                        <textarea asp-for="opis" rows="5" class="admin-input-field"></textarea>
+                        <span asp-validation-for="opis" class="text-danger"></span>
+                    </div>
+
+                    @* 6. SLIKA *@
+                    <div class="form-group full-width">
+                        <label class="admin-label-small">TRENUTNA SLIKA</label>
+                        <div class="mb-2">
+                            @if (!string.IsNullOrEmpty(Model.slika)) {
+                                <img src="~/images/maserji/@Model.slika" style="height: 100px; border-radius: 8px; border: 1px solid #ddd;" />
+                            } else {
+                                <span class="text-muted">Ni naložene slike</span>
+                            }
+                        </div>
+
+                        <label class="admin-label-small">ZAMENJAJ SLIKO</label>
+                        <input type="file" name="slikaFile" class="admin-input-field" accept="image/*" />
+                        <small class="admin-hint-text">Izberite novo datoteko le, če želite zamenjati obstoječo sliko.</small>
+                    </div>
+                </div>
+
+                <div class="admin-form-footer">
+                    <a asp-action="Maserji" class="admin-btn admin-btn--ghost">Prekliči</a>
+                    <button type="submit" class="admin-btn admin-btn--primary">Shrani vse spremembe</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

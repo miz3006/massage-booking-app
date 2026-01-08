@@ -1,53 +1,88 @@
 @model IEnumerable<MassageStudio.Models.Maser>
 
-<h1>Osebje</h1>
+@{
+    ViewData["Title"] = "Osebje";
+    ViewData["BodyClass"] = "subpage admin-page";
+}
 
-<a asp-action="UstvariMaserja" class="btn btn-primary mb-3">
-    Dodaj maserja
-</a>
+@* Hero sekcija, ki se ujema s stilom ostalih podstrani (Kontakt, Profil) *@
+<div class="subpage-hero">
+    <div class="container">
+        <h1>OSEBJE</h1>
+    </div>
+</div>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Slika</th>
-            <th>Ime</th>
-            <th>Priimek</th>
-            <th>Email</th>
-            <th>Opis</th>
-            <th>Datum rojstva</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-    @foreach (var m in Model)
-    {
-        <tr>
-            <td>
-                @if (!string.IsNullOrEmpty(m.slika))
+<div class="admin-wrap">
+    <div class="admin-card">
+        <div class="admin-card__head">
+            <div>
+                <h2>Upravljanje osebja</h2>
+                <p>Dodaj, uredi ali odstrani člane svoje ekipe.</p>
+            </div>
+
+            <a asp-action="UstvariMaserja" class="admin-btn admin-btn--primary">
+                + Dodaj maserja
+            </a>
+        </div>
+
+        <div class="admin-table-wrap">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th class="col-img">Slika</th>
+                        <th class="col-name">Ime</th>
+                        <th class="col-surname">Priimek</th>
+                        <th class="col-email">Email</th>
+                        <th class="col-desc">Opis</th>
+                        <th class="col-date">Datum rojstva</th>
+                        <th class="col-actions">Akcije</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                @foreach (var m in Model)
                 {
-                    <img src="~/images/maserji/@m.slika" 
-                         alt="@m.imeMaserja" 
-                         style="width:50px;height:50px;" />
+                    <tr>
+                        <td class="col-img">
+                            <img class="admin-avatar"
+                                 src="~/images/maserji/@(string.IsNullOrEmpty(m.slika) ? "default.png" : m.slika)"
+                                 alt="@m.imeMaserja" />
+                        </td>
+
+                        <td class="col-name"><strong>@m.imeMaserja</strong></td>
+                        <td class="col-surname"><strong>@m.priimekMaserja</strong></td>
+
+                        <td class="col-email">
+                            <span class="admin-muted">@m.eMail</span>
+                        </td>
+
+                        <td class="col-desc">
+                            <div class="desc-truncate">@m.opis</div>
+                        </td>
+
+                        <td class="col-date">
+                            <span class="admin-muted">@m.datumRojstva.ToString("dd.MM.yyyy")</span>
+                        </td>
+
+                        <td class="col-actions">
+                            <div class="admin-actions">
+                                <a asp-action="EditMaserja" asp-route-id="@m.IdMaserja" class="admin-btn admin-btn--ghost">
+                                    Uredi
+                                </a>
+
+                                <form asp-action="Delete" method="post" class="admin-actions__form" onsubmit="return confirm('Ali ste prepričani, da želite izbrisati tega maserja?');">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@m.IdMaserja" />
+                                    <button type="submit" class="admin-btn admin-btn--danger">
+                                        Izbriši
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
                 }
-                else
-                {
-                    <img src="~/images/maserji/default.png" 
-                         alt="Default" 
-                         style="width:50px;height:50px;" />
-                }
-            </td>
-            <td>@m.imeMaserja</td>
-            <td>@m.priimekMaserja</td>
-            <td>@m.eMail</td>
-            <td>@m.opis</td>
-            <td>@m.datumRojstva.ToString("dd.MM.yyyy")</td>
-            <td>
-                <form asp-action="Delete" method="post" style="display:inline;">
-                    <input type="hidden" name="id" value="@m.IdMaserja" />
-                    <button class="btn btn-danger btn-sm">Izbriši</button>
-                </form>
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

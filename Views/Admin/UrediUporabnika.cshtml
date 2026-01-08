@@ -1,0 +1,64 @@
+@model ApplicationUser
+
+@{
+    ViewData["Title"] = "Uredi uporabnika";
+    ViewData["BodyClass"] = "subpage admin-page";
+}
+
+<div class="subpage-hero">
+    <div class="container">
+        <h1>UREDI UPORABNIKA</h1>
+    </div>
+</div>
+
+<div class="admin-wrap">
+    <div class="admin-card">
+        <div class="admin-card__head">
+            <div>
+                <h2>Posodobitev podatkov</h2>
+                <p>Spremenite kontaktne podatke za uporabnika <strong>@Model.Email</strong>.</p>
+            </div>
+        </div>
+
+        <div class="admin-card__body">
+            <form asp-action="UrediUporabnika" method="post" class="admin-form-modern">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="Id" />
+
+                <div class="admin-form-grid">
+                    <div class="form-group">
+                        <label class="admin-label-small">IME</label>
+                        <input asp-for="FirstName" class="admin-input-field" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="admin-label-small">PRIIMEK</label>
+                        <input asp-for="LastName" class="admin-input-field" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="admin-label-small">TELEFON</label>
+                        <input asp-for="PhoneNumber" class="admin-input-field" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="admin-label-small">E-NASLOV (Samo za branje)</label>
+                        <input asp-for="Email" class="admin-input-field" readonly style="opacity: 0.6; cursor: not-allowed;" />
+                    </div>
+                </div>
+
+                <div class="admin-form-footer">
+                    <a asp-action="Uporabniki" class="admin-btn admin-btn--ghost">Prekliči</a>
+                    <button type="submit" class="admin-btn admin-btn--primary">Shrani spremembe</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

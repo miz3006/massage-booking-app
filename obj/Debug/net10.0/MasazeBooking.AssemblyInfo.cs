@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MasazeBooking")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bdb6575ae02fc6397119a8512269057f81b69917")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+308c4305cebf080cf35e213df1fb3a8134382738")]
 [assembly: System.Reflection.AssemblyProductAttribute("MasazeBooking")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MasazeBooking")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

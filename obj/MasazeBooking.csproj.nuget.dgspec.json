@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\projekti\\webapp-masaze\\MasazeBooking.csproj": {}
+    "/Users/mizic24/Desktop/faks/is-webapp/webapp-masaze/MasazeBooking.csproj": {}
   },
   "projects": {
-    "C:\\projekti\\webapp-masaze\\MasazeBooking.csproj": {
+    "/Users/mizic24/Desktop/faks/is-webapp/webapp-masaze/MasazeBooking.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\projekti\\webapp-masaze\\MasazeBooking.csproj",
+        "projectUniqueName": "/Users/mizic24/Desktop/faks/is-webapp/webapp-masaze/MasazeBooking.csproj",
         "projectName": "MasazeBooking",
-        "projectPath": "C:\\projekti\\webapp-masaze\\MasazeBooking.csproj",
-        "packagesPath": "C:\\Users\\Aleks Ašanin\\.nuget\\packages\\",
-        "outputPath": "C:\\projekti\\webapp-masaze\\obj\\",
+        "projectPath": "/Users/mizic24/Desktop/faks/is-webapp/webapp-masaze/MasazeBooking.csproj",
+        "packagesPath": "/Users/mizic24/.nuget/packages/",
+        "outputPath": "/Users/mizic24/Desktop/faks/is-webapp/webapp-masaze/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Aleks Ašanin\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/Users/mizic24/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
@@ -83,6 +83,10 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[9.0.0, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[10.*, )"
             }
           },
           "imports": [
@@ -104,7 +108,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.100/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

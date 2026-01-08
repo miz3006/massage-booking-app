@@ -1,125 +1,197 @@
 @model MassageStudio.Models.Rezervacija
 @using System.Security.Claims
+@using Microsoft.AspNetCore.Mvc.Rendering
 
-<h2 class="text-3xl font-bold text-orange-700 mb-6 text-center">Rezerviraj masažo</h2>
+@{
+    ViewData["Title"] = "Rezerviraj masažo";
+    ViewData["BodyClass"] = "subpage";
+}
 
-<form asp-action="Create" asp-controller="Rezervacija" method="post" class="space-y-4">
-    @Html.AntiForgeryToken()
-    <input type="hidden" asp-for="UserId" value="@User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value" />
-    <div asp-validation-summary="All" class="text-red-600"></div>
-
-
-    <input type="hidden" asp-for="MasazaID" value="@Model.MasazaID" />
-
-    <div class="grid grid-cols-2 gap-4">
-
-        <div>
-            <label class="block font-semibold text-orange-800">Ime</label>
-            <input asp-for="Ime" class="w-full rounded-lg border border-orange-300 p-2 bg-orange-50" readonly />
+<div class="booking-page">
+    <div class="booking-card">
+        <div class="booking-header">
+            <h1>Rezerviraj masažo</h1>
+            <p>Izberi maserja, datum in termin. Podatki spodaj so vzeti iz tvojega profila.</p>
         </div>
-        <div>
-            <label class="block font-semibold text-orange-800">Priimek</label>
-            <input asp-for="Priimek" class="w-full rounded-lg border border-orange-300 p-2 bg-orange-50" readonly />
-        </div>
-    </div>
 
-    <div>
-        <label class="block font-semibold text-orange-800">Email</label>
-        <input asp-for="Email" class="w-full rounded-lg border border-orange-300 p-2 bg-orange-50" readonly />
-    </div>
+        <form asp-action="Create" asp-controller="Rezervacija" method="post" class="booking-form">
+            @Html.AntiForgeryToken()
 
-    <div>
-        <label class="block font-semibold text-orange-800">Telefon</label>
-        <input asp-for="Telefon" class="w-full rounded-lg border border-orange-300 p-2 bg-orange-50" readonly />
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Maser</label>
-        <select id="maserSelect" asp-for="MaserID" class="form-select" asp-items="@(new SelectList((IEnumerable<MassageStudio.Models.Maser>)ViewBag.Maserji, "IdMaserja", "imeMaserja"))">
-            <option value="">-- Izberi maserja --</option>
-        </select>
-        <span asp-validation-for="MaserID" class="text-danger"></span>
-    </div>
-    <div>
-        <label class="block font-semibold text-orange-800">Datum</label>
-        <input type="date" id="calendar" asp-for="Datum" class="w-full rounded-lg border border-orange-300 p-2 bg-white" disabled/>
-    </div>
+            <!-- To je bolje nastaviti v controllerju (varnost), ampak pustimo za zdaj -->
+            <input type="hidden" asp-for="UserId"
+                   value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" />
 
-    <div>
-        <label class="block font-semibold text-orange-800">Čas (vsaki 2 uri)</label>
-        <select id="casSelect" name="CasPrihoda" class="w-full rounded-lg border border-orange-300 p-2 bg-white" disabled>
-        </select>
-    </div>
+            <input type="hidden" asp-for="MasazaID" value="@Model.MasazaID" />
 
-    <button type="submit" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded-xl shadow-lg transition-all">
-        Potrdi rezervacijo
-    </button>
-</form>
-@section Scripts {
+            <div asp-validation-summary="All" class="booking-validation"></div>
+
+            <div class="booking-grid booking-grid-2">
+                <div class="booking-field">
+                    <label class="booking-label">Ime</label>
+                    <input asp-for="Ime" class="booking-input" readonly />
+                </div>
+                <div class="booking-field">
+                    <label class="booking-label">Priimek</label>
+                    <input asp-for="Priimek" class="booking-input" readonly />
+                </div>
+            </div>
+
+            <div class="booking-field">
+                <label class="booking-label">Email</label>
+                <input asp-for="Email" class="booking-input" readonly />
+            </div>
+
+            <div class="booking-field">
+                <label class="booking-label">Telefon</label>
+                <input asp-for="Telefon" class="booking-input" readonly />
+            </div>
+
+            <div class="booking-field">
+                <label class="booking-label">Maser</label>
+                <select id="maserSelect"
+                        asp-for="MaserID"
+                        class="booking-select"
+                        asp-items="@(new SelectList((IEnumerable<MassageStudio.Models.Maser>)ViewBag.Maserji, "IdMaserja", "imeMaserja"))">
+                    <option value="">— Izberi maserja —</option>
+                </select>
+                <span asp-validation-for="MaserID" class="booking-field-error"></span>
+            </div>
+
+            <div class="booking-grid booking-grid-2">
+                <div class="booking-field">
+                    <label class="booking-label">Datum</label>
+                    <!-- text + flatpickr -->
+                    <input id="bookingDate"
+                           asp-for="Datum"
+                           type="text"
+                           class="booking-input"
+                           placeholder="Najprej izberi maserja…"
+                           disabled />
+                </div>
+
+                <div class="booking-field">
+                    <label class="booking-label">Čas</label>
+                    <select id="casSelect" asp-for="CasPrihoda" class="booking-select" disabled>
+                        <option value="">Najprej izberi datum…</option>
+                    </select>
+                    <span asp-validation-for="CasPrihoda" class="booking-field-error"></span>
+                </div>
+            </div>
+
+            <button id="submitBtn" type="submit" class="btn-main booking-submit" disabled>
+                Potrdi rezervacijo
+            </button>
+
+            <p class="booking-hint">
+                Termini se pokažejo glede na izbranega maserja.
+            </p>
+        </form>
+    </div>
+</div>
+
+@section Styles {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
     <script>
-        async function loadTermini() {
+        document.addEventListener('DOMContentLoaded', () => {
             const idMasaze = @Model.MasazaID;
+
+            const maserSelect = document.getElementById('maserSelect');
+            const dateInput = document.getElementById('bookingDate');
+            const casSelect = document.getElementById('casSelect');
+            const submitBtn = document.getElementById('submitBtn');
+
             let termini = [];
 
-            const maserSelect = document.getElementById("maserSelect");
-            const calendarInput = document.getElementById("calendar");
-            const casSelect = document.getElementById("casSelect");
+            // init flatpickr samo 1x
+            const fp = flatpickr(dateInput, {
+                dateFormat: "Y-m-d",
+                disableMobile: true,
+                enable: [],
+                onChange: function(selectedDates, dateStr) {
+                    fillTimes(dateStr);
+                }
+            });
 
-            // Inicialno onemogočimo datum in čas
-            calendarInput.disabled = true;
-            casSelect.disabled = true;
+            function resetDateAndTime() {
+                fp.clear();
+                fp.set('enable', []);
+                dateInput.value = '';
+                dateInput.disabled = true;
+                dateInput.placeholder = 'Najprej izberi maserja…';
 
-            // Funkcija za pridobitev terminov za določenega maserja
-            async function fetchTermini(maserID) {
-                if (!maserID) return [];
-                const res = await fetch(`/Rezervacija/GetEvents?idMasaze=${idMasaze}&maserID=${maserID}`);
-                return await res.json();
+                casSelect.innerHTML = '<option value="">Najprej izberi datum…</option>';
+                casSelect.disabled = true;
+
+                submitBtn.disabled = true;
             }
 
-            // Ko uporabnik izbere maserja
-            maserSelect.addEventListener("change", async function() {
-                const maserID = this.value;
+            function resetTimeOnly() {
+                casSelect.innerHTML = '<option value="">Izberi čas…</option>';
+                casSelect.disabled = true;
+                submitBtn.disabled = true;
+            }
 
-                // Če ni izbranega maserja, počistimo datum in čas
-                if (!maserID) {
-                    calendarInput.value = "";
-                    calendarInput.disabled = true;
-                    casSelect.innerHTML = "";
+            function fillTimes(dateStr) {
+                resetTimeOnly();
+
+                const terminiNaDatum = termini
+                    .filter(t => (t.start || '').startsWith(dateStr))
+                    .map(t => (t.start || '').split('T')[1]?.substring(0,5))
+                    .filter(Boolean);
+
+                // unique + sort
+                const uniqueTimes = [...new Set(terminiNaDatum)].sort();
+
+                if (uniqueTimes.length === 0) {
+                    casSelect.innerHTML = '<option value="">Ni prostih terminov</option>';
                     casSelect.disabled = true;
+                    submitBtn.disabled = true;
                     return;
                 }
 
-                // Omogočimo datum in čas
-                calendarInput.disabled = false;
                 casSelect.disabled = false;
+                casSelect.innerHTML = '<option value="">Izberi čas…</option>';
 
-                // Naložimo termine za izbranega maserja
-                termini = await fetchTermini(maserID);
-
-                // Dobimo samo unikatne datume
-                const datumi = [...new Set(termini.map(t => t.start.split('T')[0]))];
-
-                // Nastavimo flatpickr
-                flatpickr(calendarInput, {
-                    dateFormat: "Y-m-d",
-                    enable: datumi,
-                    onChange: function(selectedDates, dateStr) {
-                        // Ko uporabnik izbere datum, napolnimo select box s termini
-                        const terminiNaDatum = termini.filter(t => t.start.startsWith(dateStr));
-                        casSelect.innerHTML = "";
-                        terminiNaDatum.forEach(t => {
-                            const time = t.start.split('T')[1].substring(0,5);
-                            const option = document.createElement("option");
-                            option.value = time;
-                            option.textContent = time;
-                            casSelect.appendChild(option);
-                        });
-                    }
+                uniqueTimes.forEach(time => {
+                    const opt = document.createElement('option');
+                    opt.value = time;
+                    opt.textContent = time;
+                    casSelect.appendChild(opt);
                 });
-            });
-        }
+            }
 
-        loadTermini();
+            casSelect.addEventListener('change', () => {
+                submitBtn.disabled = !casSelect.value;
+            });
+
+            maserSelect.addEventListener('change', async () => {
+                resetDateAndTime();
+
+                const maserID = maserSelect.value;
+                if (!maserID) return;
+
+                dateInput.disabled = false;
+                dateInput.placeholder = 'Izberi datum…';
+
+                const res = await fetch(`/Rezervacija/GetEvents?idMasaze=${idMasaze}&maserID=${maserID}`);
+                termini = await res.json();
+
+                const datumi = [...new Set(termini
+                    .map(t => (t.start || '').split('T')[0])
+                    .filter(Boolean)
+                )];
+
+                fp.set('enable', datumi);
+            });
+
+            // initial
+            resetDateAndTime();
+        });
     </script>
 }

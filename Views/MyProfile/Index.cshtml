@@ -2,22 +2,56 @@
 
 @{
     ViewData["Title"] = "Moj račun";
+    // Dodamo specifičen razred za hero sliko profila
+    ViewData["BodyClass"] = "subpage profile-page-body";
 }
 
-<h1>Moj račun</h1>
-
-<div class="card p-4" style="max-width: 500px;">
-    <p><strong>Ime:</strong> @Model.FirstName</p>
-    <p><strong>Priimek:</strong> @Model.LastName</p>
-    <p><strong>Email:</strong> @Model.Email</p>
-    <p><strong>Telefon:</strong> @Model.PhoneNumber</p>
-</div>
-<div class="mt-4">
-    <form asp-controller="Account" asp-action="Logout" method="post">
-        @Html.AntiForgeryToken()
-        <button type="submit" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-xl shadow-lg transition-all">
-            Odjava
-        </button>
-    </form>
+<div class="subpage-hero">
+    <h1>MOJ PROFIL</h1>
 </div>
 
+<div class="subpage-content profile-page">
+    <div class="profile-container">
+        
+        <div class="card profile-card">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    @Model.FirstName[0]@Model.LastName[0]
+                </div>
+                <h3>@Model.FirstName @Model.LastName</h3>
+                <span class="profile-role">Stranka</span>
+            </div>
+
+            <div class="profile-details">
+                <div class="profile-row">
+                    <strong>Ime</strong>
+                    <span>@Model.FirstName</span>
+                </div>
+                <div class="profile-row">
+                    <strong>Priimek</strong>
+                    <span>@Model.LastName</span>
+                </div>
+                <div class="profile-row">
+                    <strong>Email naslov</strong>
+                    <span>@Model.Email</span>
+                </div>
+                <div class="profile-row">
+                    <strong>Telefonska številka</strong>
+                    <span>@(string.IsNullOrEmpty(Model.PhoneNumber) ? "/" : Model.PhoneNumber)</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-actions">
+            <a asp-area="Identity" asp-page="/Account/Manage/ChangePassword" class="btn-action-outline">
+                Spremeni geslo
+            </a>
+
+            <form asp-controller="Account" asp-action="Logout" method="post">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn-action-danger">Odjava iz računa</button>
+            </form>
+        </div>
+        
+    </div>
+</div>

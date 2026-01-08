@@ -1,39 +1,113 @@
 @{
-    ViewData["Title"] = "Domov"; 
-    ViewData["BodyClass"] = "home-page"; 
+    ViewData["Title"] = "Domov";
+    ViewData["BodyClass"] = "home-page";
 }
 
+<header class="home-hero">
+    <div class="home-hero__overlay"></div>
 
-<div class="hero">
-    <div class="hero-overlay"></div>
-    <div class="hero-content hero-container">
-        <h1 class="hero-title">CENTER AZIJSKIH MASAŽ</h1>
-        <p class="hero-subtitle">
-            Odmisilte skrbi, umirite telo in misli ter si privoščite popolno sprostitev
-            na eni izmed mnogih masaž iz naše ponudbe.
-        </p>
+    <div class="home-container">
+        <div class="home-hero__content">
+            <span class="home-hero__tagline">DOBRODOŠLI V OAZI MIRU</span>
 
-        <a asp-controller="Services" asp-action="Index" class="btn-main">
-            REZERVIRAJTE TERMIN
-        </a>
+            <h1 class="home-hero__title">
+                CENTER <span class="text-accent">AZIJSKIH</span> MASAŽ
+            </h1>
+
+            <p class="home-hero__subtitle">
+                Umetnost dotika, ki prebuja vitalno energijo in harmonizira vaše telo.
+                Doživite tradicijo vzhoda v osrčju Ljubljane.
+            </p>
+
+            <div class="home-hero__actions">
+                <a asp-controller="Rezervacija" asp-action="Index" class="btn btn--primary">
+                    REZERVIRAJTE TERMIN
+                </a>
+                <a href="#storitve" class="btn btn--ghost">
+                    NAŠA PONUDBA
+                </a>
+            </div>
+
+            <div class="home-hero__trust">
+                <span class="trust-pill">✓ Diskretno & profesionalno</span>
+                <span class="trust-pill">✓ Naravna olja</span>
+                <span class="trust-pill">✓ Ljubljana center</span>
+            </div>
+        </div>
     </div>
-</div>
+</header>
 
-<section id="statistika" class="section">
-    <div class="hero-container">
-        <h2>Statistika sistema</h2>
+<section class="home-stats" aria-label="Statistika">
+    <div class="home-container">
+        <div class="stats-card">
+            <div class="stat">
+                <span class="stat__num">@ViewBag.ServicesCount</span>
+                <span class="stat__label">VRST MASAŽ</span>
+            </div>
 
-        <div class="alert alert-info">
-            Število masaž v sistemu: <strong>@ViewBag.ServicesCount</strong>
+            <div class="stats-divider" aria-hidden="true"></div>
+
+            <div class="stat">
+                <span class="stat__num">
+                    @ViewBag.ClientsCount<span class="stat__plus">+</span>
+                </span>
+                <span class="stat__label">ZADOVOLJNIH STRANK</span>
+            </div>
+
+            <div class="stats-divider" aria-hidden="true"></div>
+
+            <div class="stat">
+                <span class="stat__num">100%</span>
+                <span class="stat__label">NARAVNA OLJA</span>
+            </div>
         </div>
-        <div class="alert alert-success">
-            Število strank v sistemu: <strong>@ViewBag.ClientsCount</strong>
-        </div>
+    </div>
+</section>
 
-        <p class="mt-3">
-            <a class="btn btn-primary" asp-controller="Massages" asp-action="Index">Poglej masaže</a>
-            <a class="btn btn-secondary" asp-controller="Clients" asp-action="Index">Poglej stranke</a>
-             <a class="btn btn-secondary" asp-controller="Massages" asp-action="Create">Dodej masaže</a>
-        </p>
+<section id="storitve" class="home-feature">
+    <div class="home-container">
+        <div class="feature-grid">
+            <div class="feature-copy">
+                <span class="kicker">SPROSTITEV</span>
+                <h2 class="feature-title">Tradicionalne tehnike za sodoben čas</h2>
+                <p class="feature-text">
+                    Naše masaže združujejo starodavna znanja z modernim razumevanjem telesa.
+                    Vsak gib je načrtovan za sprostitev globokih napetosti.
+                </p>
+
+                <ul class="feature-list">
+                    <li><span class="sparkle">✨</span> Tajska masaža z zelišči</li>
+                    <li><span class="sparkle">✨</span> Shiatsu regeneracija</li>
+                    <li><span class="sparkle">✨</span> Aromaterapija s toplimi olji</li>
+                </ul>
+            </div>
+
+            <div class="feature-visual">
+                <div class="shape-bg" aria-hidden="true"></div>
+                <div class="feature-image"
+                     style="background-image:url('https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=2070&auto=format&fit=crop');">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="home-cta">
+    <div class="home-container">
+        <div class="cta-box">
+            <div class="cta-copy">
+                <h2>Podarite si trenutek, ki si ga zaslužite</h2>
+                <p>Preverite razpoložljivost naših maserjev v nekaj klikih.</p>
+            </div>
+
+            <div class="cta-actions">
+                <a asp-controller="Rezervacija" asp-action="Index" class="btn btn--primary">
+                    REZERVIRAJ ZDAJ
+                </a>
+                <a asp-controller="Contact" asp-action="Index" class="btn btn--link">
+                    NAS NAJDETE?
+                </a>
+            </div>
+        </div>
     </div>
 </section>

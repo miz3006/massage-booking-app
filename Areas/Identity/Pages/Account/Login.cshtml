@@ -3,14 +3,22 @@
 
 @{
     ViewData["Title"] = "Prijava";
-    ViewData["BodyClass"] = "auth-background";
+
+    // V Razor Pages uporabljaj Request (ne Context)
+    var isPopup = Request.Query.ContainsKey("popup");
+    ViewData["BodyClass"] = isPopup ? "auth-popup" : "auth-background";
 }
 
-<div class="auth-page">
+    <div class="auth-page">
     <div class="auth-card">
         <h1 class="auth-title">PRIJAVA</h1>
 
-        <form id="account" method="post">
+        <!-- KLJUČ: target="_top" samo za popup -->
+        <form id="account" method="post" target="@(isPopup ? "_top" : null)">
+            
+            <!-- KLJUČ: ReturnUrl mora biti v postu -->
+            <input type="hidden" asp-for="ReturnUrl" />
+
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
 
             <div class="form-custom mb-3">
@@ -37,7 +45,7 @@
                     @Html.DisplayNameFor(m => m.Input.RememberMe)
                 </label>
 
-                <a id="forgot-password" asp-page="./ForgotPassword" class="auth-link">
+                <a id="forgot-password" asp-page="./ForgotPassword" class="auth-link" target="_top">
                     Pozabljeno geslo?
                 </a>
             </div>
@@ -48,11 +56,13 @@
 
             <p class="already mt-4">
                 Še nimate računa?
-                <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Ustvari račun</a>
+                <a asp-page="./Register" asp-route-returnUrl="/" target="_top">Ustvari račun</a>
             </p>
 
             <p class="already">
-                <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Ponovno pošlji potrditveno e-pošto</a>
+                <a id="resend-confirmation" asp-page="./ResendEmailConfirmation" target="_top">
+                    Ponovno pošlji potrditveno e-pošto
+                </a>
             </p>
         </form>
     </div>

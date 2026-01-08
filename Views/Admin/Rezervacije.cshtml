@@ -2,43 +2,108 @@
 
 @{
     ViewData["Title"] = "Rezervacije";
+    ViewData["BodyClass"] = "subpage admin-page";
 }
 
-<h1>Vse rezervacije</h1>
+@* Hero sekcija *@
+<div class="subpage-hero">
+    <div class="container">
+        <h1>REZERVACIJE</h1>
+    </div>
+</div>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Ime</th>
-            <th>Email</th>
-            <th>Telefon</th>
-            <th>Datum</th>
-            <th>Čas</th>
-            <th>Maser</th>
-            <th>Masaža</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-    @foreach (var r in Model)
+<div class="admin-wrap">
+    
+    @* Hitri filtri na vrhu *@
+    <div class="admin-filter-bar mb-4">
+        <button class="filter-btn active" onclick="filterReservations('all', this)">VSE</button>
+        <button class="filter-btn" onclick="filterReservations('today', this)">DANES</button>
+        <button class="filter-btn" onclick="filterReservations('upcoming', this)">PRIHAJAJOČE</button>
+    </div>
+
+    @if (!Model.Any())
     {
-        <tr>
-            <td>@r.Ime @r.Priimek</td>
-            <td>@r.Email</td>
-            <td>@r.Telefon</td>
-            <td>@r.Datum.ToString("dd.MM.yyyy")</td>
-            <td>@r.CasPrihoda</td>
-            <td>@r.Maser?.imeMaserja @r.Maser?.priimekMaserja</td>
-            <td>@r.Masaza?.NazivMasaze</td>
-            <td>
-                <form asp-action="DeleteRezervacija" method="post">
+        <div class="admin-card p-5 text-center">
+            <p class="admin-muted">Trenutno ni nobene rezervacije v sistemu.</p>
+        </div>
+    }
+
+    @* Izpis kartic *@
+    @foreach (var r in Model.OrderBy(x => x.Datum))
+    {
+        bool isToday = r.Datum.Date == DateTime.Today;
+        bool isUpcoming = r.Datum.Date >= DateTime.Today;
+
+        @* Kartica z razredi za JS filtriranje *@
+        <div class="res-item res-card @(isToday ? "is-today" : "") @(isUpcoming ? "filter-upcoming" : "filter-past")">
+            
+            @* Levi blok: Čas in datum *@
+            <div class="res-time-block">
+                <span class="res-date">@r.Datum.ToString("dd. MMM")</span>
+                <span class="res-hour">@r.CasPrihoda</span>
+            </div>
+
+            @* Sredinski blok: Vsi ključni podatki *@
+            <div class="res-info-block">
+                <div class="res-customer">
+                    <strong>@r.Ime @r.Priimek</strong>
+                    <span class="res-contact">@r.Telefon • @r.Email</span>
+                </div>
+                
+                <div class="res-service">
+                    <span class="res-label">MASAŽA</span>
+                    <span class="res-name">@(r.Masaza?.NazivMasaze ?? "Ni določeno")</span>
+                </div>
+                
+                <div class="res-staff">
+                    <span class="res-label">MASER</span>
+                    <span class="res-name">@(r.Maser != null ? r.Maser.imeMaserja : "Ni določen")</span>
+                </div>
+            </div>
+
+            @* Desni blok: Akcije *@
+            <div class="res-actions">
+                <form asp-action="DeleteRezervacija" method="post" class="h-100">
+                    @Html.AntiForgeryToken()
                     <input type="hidden" name="id" value="@r.IdRez" />
-                    <button class="btn btn-danger btn-sm">
-                        Izbriši
+                    <button type="submit" class="res-delete-btn" onclick="return confirm('Ali ste prepričani, da želite izbrisati to rezervacijo?')">
+                        <span>×</span>
                     </button>
                 </form>
-            </td>
-        </tr>
+            </div>
+        </div>
     }
-    </tbody>
-</table>
+</div>
+
+@section Scripts {
+    <script>
+        function filterReservations(type, btn) {
+            // 1. Posodobi gumbe
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // 2. Filtriraj kartice
+            const items = document.querySelectorAll('.res-item');
+            
+            items.forEach(item => {
+                if (type === 'all') {
+                    item.style.display = 'grid';
+                } 
+                else if (type === 'today') {
+                    if (item.classList.contains('is-today')) {
+                        item.style.display = 'grid';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                } 
+                else if (type === 'upcoming') {
+                    if (item.classList.contains('filter-upcoming')) {
+                        item.style.display = 'grid';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                }
+            });
+        }
+    </script>
+}

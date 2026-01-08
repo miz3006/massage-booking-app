@@ -2,42 +2,68 @@
 
 @{
     ViewData["Title"] = "Ustvari termin";
+    ViewData["BodyClass"] = "subpage admin-page";
 }
 
-<h1>Ustvari termin</h1>
+@* Hero sekcija s prosojnim napisom, usklajena z ostalimi podstranmi *@
+<div class="subpage-hero">
+    <div class="container">
+        <h1>USTVARI TERMIN</h1>
+    </div>
+</div>
 
-@* Prikaz TempData uspeha *@
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success">@TempData["Success"]</div>
+<div class="admin-wrap">
+    <div class="admin-card">
+        <div class="admin-card__head">
+            <div>
+                <h2>Nov termin</h2>
+                <p>Določite razpoložljivost za izbranega maserja.</p>
+            </div>
+        </div>
+
+        <div class="admin-card__body">
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success mb-4">@TempData["Success"]</div>
+            }
+
+            @* Prikaz povzetka napak *@
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <form asp-action="UstvariTermin" method="post" class="admin-form-modern">
+                @Html.AntiForgeryToken()
+
+                <div class="admin-form-grid">
+                    <div class="form-group">
+                        <label class="admin-label-small">DATUM</label>
+                        <input asp-for="Datum" type="date" class="admin-input-field" />
+                        <span asp-validation-for="Datum" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="admin-label-small">URA (ČAS PRIHODA)</label>
+                        <input asp-for="Cas_prihoda" type="time" class="admin-input-field" />
+                        <span asp-validation-for="Cas_prihoda" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="admin-label-small">IZBERITE MASERJA</label>
+                        <select asp-for="MaserID" class="admin-input-field admin-select" asp-items="ViewBag.Maserji">
+                            <option value="">-- Seznam razpoložljivih maserjev --</option>
+                        </select>
+                        <span asp-validation-for="MaserID" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="admin-form-footer">
+                    <a asp-action="Termini" class="admin-btn admin-btn--ghost">Nazaj na seznam</a>
+                    <button type="submit" class="admin-btn admin-btn--primary">Potrdi in shrani</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }
-
-@* Prikaz napak *@
-@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-<form asp-action="UstvariTermin" method="post">
-    @Html.AntiForgeryToken()
-
-    <div class="mb-3">
-        <label class="form-label">Datum</label>
-        <input asp-for="Datum" type="date" class="form-control" />
-        @Html.ValidationMessageFor(m => m.Datum, "", new { @class = "text-danger" })
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Ura</label>
-        <input asp-for="Cas_prihoda" type="time" class="form-control" />
-        @Html.ValidationMessageFor(m => m.Cas_prihoda, "", new { @class = "text-danger" })
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Maser</label>
-        <select asp-for="MaserID" class="form-control" asp-items="ViewBag.Maserji">
-            <option value="">-- Izberi maserja --</option>
-        </select>
-        @Html.ValidationMessageFor(m => m.MaserID, "", new { @class = "text-danger" })
-    </div>
-
-    <button type="submit" class="btn btn-success">Shrani</button>
-    <a asp-action="Termini" class="btn btn-secondary">Nazaj</a>
-</form>

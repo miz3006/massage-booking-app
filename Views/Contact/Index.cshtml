@@ -4,71 +4,81 @@
 
 @{
     ViewData["Title"] = "Kontakt";
+    // Dodamo specifičen razred za kontaktno sliko
+    ViewData["BodyClass"] = "subpage contact-page-body";
 }
 
 <div class="subpage-hero">
-    <h1>Kontakt</h1>
+    <h1>KONTAKT</h1>
 </div>
 
 <div class="subpage-content contact-page">
+    <div class="contact-grid">
+        <div class="contact-info-side">
+            <p class="contact-intro">
+                Če nas želiš kontaktirati, uporabi spodnje informacije ali pa nam pošlji sporočilo preko obrazca.
+            </p>
 
-    <p>
-        Če nas želiš kontaktirati, uporabi spodnje informacije ali pa nam pošlji sporočilo preko obrazca.
-    </p>
+            <div class="contact-card">
+                <h3>Masažni studio</h3>
+                <div class="contact-item">
+                    <strong>Naslov:</strong> 
+                    <span>Ljubljana, Center 12</span>
+                </div>
+                <div class="contact-item">
+                    <strong>Telefon:</strong> 
+                    <span>+386 41 123 456</span>
+                </div>
+                <div class="contact-item">
+                    <strong>Email:</strong> 
+                    <span>info@masazestudio.si</span>
+                </div>
+            </div>
+        </div>
 
-    <div class="contact-card">
-        <h3>Masažni studio</h3>
-        <p>
-            <strong>Naslov:</strong> Ljubljana, Center 12 <br />
-            <strong>Telefon:</strong> +386 41 123 456 <br />
-            <strong>Email:</strong> info@masazestudio.si
-        </p>
+        <div class="contact-form-side">
+            @if (!SignInManager.IsSignedIn(User))
+            {
+                <div class="auth-warning-card">
+                    <h3>Potrebna prijava</h3>
+                    <p>Za pošiljanje sporočila moraš biti prijavljen v svoj račun.</p>
+                    <a href="javascript:void(0)" onclick="showLoginModal()" class="btn-auth">Prijava tukaj</a>
+                </div>
+            }
+            else
+            {
+                var user = await UserManager.GetUserAsync(User);
+                
+                <div class="contact-form">
+                    <h3>Pošlji nam sporočilo</h3>
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="alert alert-success">@TempData["Success"]</div>
+                    }
+
+                    <form asp-action="SendMessage" method="post">
+                        @Html.AntiForgeryToken()
+                        <div class="form-row">
+                            <div class="mb-3">
+                                <label class="form-label">Vaše ime</label>
+                                <input class="form-control" value="@user.FirstName @user.LastName" disabled />
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Zadeva</label>
+                            <input class="form-control" name="naslov" placeholder="Npr. Vprašanje o rezervaciji" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Sporočilo</label>
+                            <textarea class="form-control" name="vsebina" rows="5" placeholder="Vaše sporočilo..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-auth w-100">Pošlji sporočilo</button>
+                    </form>
+                </div>
+            }
+        </div>
     </div>
-
-    @if (!SignInManager.IsSignedIn(User))
-    {
-        <div class="alert alert-info mt-3">
-            Za pošiljanje sporočila moraš biti prijavljen.
-        </div>
-    }
-    else
-    {
-        var user = await UserManager.GetUserAsync(User);
-
-        if (TempData["Success"] != null)
-        {
-            <div class="alert alert-success">@TempData["Success"]</div>
-        }
-
-        <div class="contact-form mt-3">
-            <h3>Pošlji nam sporočilo</h3>
-
-            <form asp-action="SendMessage" method="post">
-                @Html.AntiForgeryToken()
-
-                <div class="mb-3">
-                    <label class="form-label">Ime</label>
-                    <input class="form-control" value="@user.FirstName @user.LastName" disabled />
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Email</label>
-                    <input class="form-control" value="@user.Email" disabled />
-                    <input type="hidden" name="Email" value="@user.Email" />
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Naslov</label>
-                    <input class="form-control" name="naslov" required />
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Sporočilo</label>
-                    <textarea class="form-control" name="vsebina" rows="5" required></textarea>
-                </div>
-
-                <button type="submit" class="btn-main">Pošlji</button>
-            </form>
-        </div>
-    }
 </div>

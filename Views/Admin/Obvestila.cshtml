@@ -2,38 +2,50 @@
 
 @{
     ViewData["Title"] = "Obvestila";
+    ViewData["BodyClass"] = "subpage admin-page";
 }
 
-<h1>Obvestila uporabnikov</h1>
+<div class="subpage-hero">
+    <div class="container">
+        <h1>OBVESTILA</h1>
+    </div>
+</div>
 
-<div style="max-height: 75vh; overflow-y: auto;">
+<div class="admin-wrap">
+    @* Seznam kartic, sortiran od najnovejših naprej *@
+    @foreach (var o in Model.OrderByDescending(x => x.DatumObjave))
+    {
+        <div class="notif-card">
+            <div class="notif-header">
+                <div class="notif-meta">
+                    <span class="notif-date">@o.DatumObjave.ToString("dd. MMM yyyy HH:mm")</span>
+                    <h3 class="notif-title">@o.Naslov</h3>
+                    <div class="notif-user">
+                        Stranka: <strong>@o.User?.FirstName @o.User?.LastName</strong> (@o.User?.Email)
+                    </div>
+                </div>
 
-@foreach (var o in Model)
-{
-    <div class="card mb-3 shadow-sm">
-        <div class="card-header d-flex justify-content-between">
-            <div>
-                <strong>@o.Naslov</strong><br />
-                <small class="text-muted">
-                    Od: @o.User.FirstName @o.User.LastName @o.User.Email <br />
-                    @o.DatumObjave.ToString("dd.MM.yyyy HH:mm")
-                </small>
+                <div class="notif-actions">
+                    <form asp-action="DeleteObvestilo" method="post" onsubmit="return confirm('Izbrišem to obvestilo?');">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@o.IdObvestila" />
+                        <button type="submit" class="admin-btn admin-btn--danger admin-btn--sm">
+                            Izbriši
+                        </button>
+                    </form>
+                </div>
             </div>
 
-            <form asp-action="DeleteObvestilo" method="post">
-                <input type="hidden" name="id" value="@o.IdObvestila" />
-                <button class="btn btn-sm btn-danger">
-                    Izbriši
-                </button>
-            </form>
+            <div class="notif-body">
+                <p>@o.Vsebina</p>
+            </div>
         </div>
+    }
 
-        <div class="card-body">
-            <p style="white-space: pre-wrap;">
-                @o.Vsebina
-            </p>
+    @if (!Model.Any())
+    {
+        <div class="admin-card p-5 text-center">
+            <p class="admin-muted">Ni prejetih obvestil.</p>
         </div>
-    </div>
-}
-
+    }
 </div>

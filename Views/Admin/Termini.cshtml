@@ -1,37 +1,69 @@
 @model IEnumerable<MassageStudio.Models.Termin>
+@{
+    ViewData["Title"] = "Termini";
+    ViewData["BodyClass"] = "subpage admin-page";
+    // Združimo termine po datumu za lepši izpis
+    var terminiPoDnevih = Model.GroupBy(t => t.Datum.Date).OrderBy(g => g.Key);
+}
 
-<h1>Termini</h1>
+<div class="subpage-hero">
+    <div class="container">
+        <h1>TERMINI</h1>
+    </div>
+</div>
 
-<a asp-action="UstvariTermin" class="btn btn-primary mb-3">
-    Dodaj termin
-</a>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Datum</th>
-            <th>Ura</th>
-            <th>Maser</th>
-            <th>Status</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-    @foreach (var t in Model)
+<div class="admin-wrap">
+    <div class="admin-card__head mb-4" style="background: transparent; border: none; padding: 0;">
+        <a asp-action="UstvariTermin" class="admin-btn admin-btn--primary">
+            + Dodaj nov termin
+        </a>
+    </div>
+
+    @foreach (var dan in terminiPoDnevih)
     {
-        <tr>
-            <td>@t.Datum.ToString("dd.MM.yyyy")</td>
-            <td>@t.Cas_prihoda.ToString(@"hh\:mm")</td>
-            <td>@(t.Maser != null ? t.Maser.imeMaserja + " " + t.Maser.priimekMaserja : "Ni določen")</td>
-            <td>@(t.Zaseden ? "Zaseden" : "Prost")</td>
-            <td>
-                <form asp-action="DeleteTermin" method="post">
-                    <input type="hidden" name="id" value="@t.IdTermin" />
-                    <button class="btn btn-danger btn-sm">
-                        Izbriši
-                    </button>
-                </form>
-            </td>
-        </tr>
+        <div class="termin-dan-group mb-5">
+            <h3 class="termin-datum-header">
+                @dan.Key.ToString("dd. MMMM yyyy") 
+                <span class="termin-count">(@dan.Count() terminov)</span>
+            </h3>
+
+            <div class="termin-grid">
+                @foreach (var t in dan)
+                {
+                    <div class="termin-item @(t.Zaseden ? "is-zaseden" : "is-prost")">
+                        <div class="termin-time">
+                            @t.Cas_prihoda.ToString(@"hh\:mm")
+                        </div>
+
+                        <div class="termin-maser">
+                            @if (t.Maser != null)
+                            {
+                                <img src="~/images/maserji/@(string.IsNullOrEmpty(t.Maser.slika) ? "default.png" : t.Maser.slika)" class="mini-avatar" />
+                                <span>@t.Maser.imeMaserja</span>
+                            }
+                            else
+                            {
+                                <span class="admin-muted">Ni določen</span>
+                            }
+                        </div>
+
+                        <div class="termin-status">
+                            <span class="status-dot"></span>
+                            @(t.Zaseden ? "Zaseden" : "Prost")
+                        </div>
+
+                        <div class="termin-actions">
+                             <form asp-action="DeleteTermin" method="post" onsubmit="return confirm('Izbrišem termin?');">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@t.IdTermin" />
+                                <button type="submit" class="delete-icon-btn">
+                                    <i class="trash-icon">×</i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
     }
-    </tbody>
-</table>
+</div>
