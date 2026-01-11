@@ -2190,4 +2190,4 @@ C:/projekti/webapp-masaze/obj/Debug/net10.0/compressed/q5fw7a99z9-{0}-d56ruz8ugp
 /Users/mizic24/Desktop/faks/is-webapp/webapp-masaze/bin/Debug/net10.0/Swashbuckle.AspNetCore.SwaggerGen.dll
 /Users/mizic24/Desktop/faks/is-webapp/webapp-masaze/bin/Debug/net10.0/Swashbuckle.AspNetCore.SwaggerUI.dll
 /Users/mizic24/Desktop/faks/is-webapp/webapp-masaze/obj/Debug/net10.0/compressed/00a4ritr66-{0}-krc1oudje6-krc1oudje6.gz
-/Users/mizic24/Desktop/faks/is-webapp/webapp-masaze/obj/Debug/net10.0/compressed/q5fw7a99z9-{0}-krc1oudje6-krc1oudje6.gz
+/Users/mizic24/Desktop/faks/is-webapp/webapp-masaze/obj/Debug/net10.0/compressed/q5fw7a99z9-{0}-ggql12b6bf-ggql12b6bf.gz

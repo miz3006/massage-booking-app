@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Uporabniki";
-    ViewData["BodyClass"] = "subpage admin-page";
+    ViewData["BodyClass"] = "subpage admin-page users-page";
 }
 
 @* Hero sekcija s prosojnim napisom *@
@@ -47,17 +47,21 @@
                         <td><span class="code-plain">@u.PhoneNumber</span></td>
                         <td class="text-end">
                             <div class="admin-actions justify-content-end">
-                                @* GUMB ZA UREJANJE *@
-                                <a asp-action="UrediUporabnika" asp-route-id="@u.Id" class="admin-btn admin-btn--ghost admin-btn--sm">
+                                <a asp-action="UrediUporabnika"
+                                asp-route-id="@u.Id"
+                                class="admin-btn admin-btn--ghost ">
                                     Uredi
                                 </a>
 
                                 @if (u.Email != "admin@gmail.com")
                                 {
-                                    <form asp-action="DeleteUser" method="post" onsubmit="return confirm('Izbrišem uporabnika?');">
+                                    <form asp-action="DeleteUser"
+                                        method="post"
+                                        class="admin-actions__form"
+                                        onsubmit="return confirm('Izbrišem uporabnika?');">
                                         @Html.AntiForgeryToken()
                                         <input type="hidden" name="id" value="@u.Id" />
-                                        <button type="submit" class="admin-btn admin-btn--danger admin-btn--sm">
+                                        <button type="submit" class="admin-btn admin-btn--danger ">
                                             Izbriši
                                         </button>
                                     </form>

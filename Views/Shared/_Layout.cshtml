@@ -26,20 +26,23 @@
     </div>
     </div>
 
+    @{
+        var isAdmin = User.IsInRole("Admin");
+        var adminMode = isAdmin && (Context.Request.Cookies["admin_mode"] == "1");
+    }
 
-
-    <header class="hero-nav @(User.IsInRole("Admin") ? "admin-navbar-theme" : "")">
+    <header class="hero-nav @(adminMode ? "admin-navbar-theme" : "")">
     <div class="hero-container hero-nav-inner">
         <div class="logo">
             <span class="logo-bold">Massage</span><span class="logo-light">Studio</span>
-            @if (User.IsInRole("Admin"))
+            @if (adminMode)
             {
                 <span class="admin-badge">ADMIN</span>
             }
         </div>
 
         <nav class="nav-links">
-            @if (User.IsInRole("Admin"))
+            @if (adminMode)
             {
                 <a asp-controller="Admin" asp-action="Maserji">Osebje</a>
                 <a asp-controller="Admin" asp-action="Termini">Termini</a>

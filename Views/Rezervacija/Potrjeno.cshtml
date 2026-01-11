@@ -2,18 +2,25 @@
     ViewData["Title"] = "Rezervacija potrjena";
 }
 
-<div id="confirmation" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-    <div class="bg-white p-8 rounded-xl shadow-lg flex flex-col items-center">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-green-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-        </svg>
-        <h2 class="text-2xl font-bold text-green-600">Rezervacija potrjena!</h2>
+<div class="confirmation-overlay">
+    <div class="confirmation-card">
+        <div class="check-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.42-6.446z"/>
+            </svg>
+        </div>
+        <div class="status-text">Rezervacija potrjena!</div>
+        <p class="sub-text">Vaš termin je uspešno zabeležen.</p>
+        
+        <div class="loader-bar">
+            <div class="loader-progress"></div>
+        </div>
     </div>
 </div>
 
 <script>
-    // Po 3 sekundah preusmeri nazaj na začetno stran
+    // Preusmeritev po 4 sekundah
     setTimeout(() => {
-        window.location.href = '/';
-    }, 3000);
+        window.location.href = '/Massages';
+    }, 4000);
 </script>

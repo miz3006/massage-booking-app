@@ -109,6 +109,7 @@ public class AdminController : Controller
     public IActionResult Stranke()
     {
         var users = _userManager.Users.ToList();
+        ViewBag.ClientsCount = users.Count;
         return View(users);
     }
 
@@ -486,6 +487,49 @@ public class AdminController : Controller
     // ==========================
     // MASAŽE
     // ==========================
+
+    // ==========================
+    // UREJANJE
+    // ==========================
+
+    // GET: /Admin/UrediMasazo/5
+    [Authorize(Roles = "Admin")]
+    [HttpGet]
+    public async Task<IActionResult> UrediMasazo(int id)
+    {
+        var masaza = await _context.Masaze.FindAsync(id);
+        if (masaza == null)
+            return NotFound();
+
+        return View(masaza); // Views/Admin/UrediMasazo.cshtml
+    }
+
+    // POST: /Admin/UrediMasazo
+    [Authorize(Roles = "Admin")]
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> UrediMasazo(Masaza model)
+    {
+        if (!ModelState.IsValid)
+            return View(model);
+
+        // Najbolj varno: naloži iz baze in prepiši polja (da ne povoziš ID-ja ipd.)
+        var dbMasaza = await _context.Masaze.FindAsync(model.IdMasaze);
+        if (dbMasaza == null)
+            return NotFound();
+
+        dbMasaza.NazivMasaze = model.NazivMasaze;
+        dbMasaza.Opis = model.Opis;
+        dbMasaza.TrajanjeMasaze = model.TrajanjeMasaze;
+        dbMasaza.Cena = model.Cena;
+        dbMasaza.Vrsta = model.Vrsta;
+        dbMasaza.Kratica = model.Kratica;
+
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction(nameof(Masaze));
+    }
+
 
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Masaze()

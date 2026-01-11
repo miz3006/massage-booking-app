@@ -112,6 +112,7 @@
             const fp = flatpickr(dateInput, {
                 dateFormat: "Y-m-d",
                 disableMobile: true,
+                minDate: "today", // PREPREČI izbiro dni pred današnjim
                 enable: [],
                 onChange: function(selectedDates, dateStr) {
                     fillTimes(dateStr);
@@ -138,33 +139,49 @@
             }
 
             function fillTimes(dateStr) {
-                resetTimeOnly();
+            resetTimeOnly();
 
-                const terminiNaDatum = termini
-                    .filter(t => (t.start || '').startsWith(dateStr))
-                    .map(t => (t.start || '').split('T')[1]?.substring(0,5))
-                    .filter(Boolean);
+            // Pridobimo trenutni čas za primerjavo (lokalni čas brskalnika)
+            const now = new Date();
+            const isToday = dateStr === now.toISOString().split('T')[0];
 
-                // unique + sort
-                const uniqueTimes = [...new Set(terminiNaDatum)].sort();
+            const terminiNaDatum = termini
+                .filter(t => (t.start || '').startsWith(dateStr))
+                .map(t => {
+                    const fullStartStr = t.start; // npr. "2023-10-27T14:30:00"
+                    const timePart = fullStartStr.split('T')[1]?.substring(0, 5);
+                    
+                    // Če je danes, preveri če je ura termina že pretekla
+                    if (isToday) {
+                        const termDateTime = new Date(fullStartStr);
+                        if (termDateTime <= now) {
+                            return null; // Termin je že mimo
+                        }
+                    }
+                    return timePart;
+                })
+                .filter(Boolean); // Odstrani null vrednosti
 
-                if (uniqueTimes.length === 0) {
-                    casSelect.innerHTML = '<option value="">Ni prostih terminov</option>';
-                    casSelect.disabled = true;
-                    submitBtn.disabled = true;
-                    return;
-                }
+            // unique + sort
+            const uniqueTimes = [...new Set(terminiNaDatum)].sort();
 
-                casSelect.disabled = false;
-                casSelect.innerHTML = '<option value="">Izberi čas…</option>';
-
-                uniqueTimes.forEach(time => {
-                    const opt = document.createElement('option');
-                    opt.value = time;
-                    opt.textContent = time;
-                    casSelect.appendChild(opt);
-                });
+            if (uniqueTimes.length === 0) {
+                casSelect.innerHTML = '<option value="">Ni prostih terminov za ta dan</option>';
+                casSelect.disabled = true;
+                submitBtn.disabled = true;
+                return;
             }
+
+            casSelect.disabled = false;
+            casSelect.innerHTML = '<option value="">Izberi čas…</option>';
+
+            uniqueTimes.forEach(time => {
+                const opt = document.createElement('option');
+                opt.value = time;
+                opt.textContent = time;
+                casSelect.appendChild(opt);
+            });
+        }
 
             casSelect.addEventListener('change', () => {
                 submitBtn.disabled = !casSelect.value;

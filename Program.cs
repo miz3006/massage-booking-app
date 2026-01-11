@@ -40,17 +40,21 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+// ✅ Swagger UI (jaz priporočam samo v Development)
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+    });
+}
+
 app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
-// ✅ Swagger UI (jaz priporočam samo v Development)
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
 
 // ✅ NUJNO: mapiranje API controllerjev (attribute routes)
 app.MapControllers();

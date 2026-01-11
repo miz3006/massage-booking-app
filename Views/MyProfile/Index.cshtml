@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "Moj račun";
-    // Dodamo specifičen razred za hero sliko profila
     ViewData["BodyClass"] = "subpage profile-page-body";
 }
 
@@ -12,14 +11,18 @@
 
 <div class="subpage-content profile-page">
     <div class="profile-container">
-        
+
         <div class="card profile-card">
             <div class="profile-header">
                 <div class="profile-avatar">
                     @Model.FirstName[0]@Model.LastName[0]
                 </div>
+
                 <h3>@Model.FirstName @Model.LastName</h3>
-                <span class="profile-role">Stranka</span>
+
+                <span class="profile-role">
+                    @(User.IsInRole("Admin") ? "Admin" : "Stranka")
+                </span>
             </div>
 
             <div class="profile-details">
@@ -43,6 +46,32 @@
         </div>
 
         <div class="profile-actions">
+
+            @* ADMIN toggle gumb *@
+            @if (User.IsInRole("Admin"))
+            {
+                var adminMode = Context.Request.Cookies["admin_mode"] == "1";
+
+                if (!adminMode)
+                {
+                    <form asp-controller="MyProfile" asp-action="EnableAdminMode" method="post">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn-action-outline">
+                            Admin dashboard
+                        </button>
+                    </form>
+                }
+                else
+                {
+                    <form asp-controller="MyProfile" asp-action="DisableAdminMode" method="post">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn-action-outline">
+                            Navadna stran
+                        </button>
+                    </form>
+                }
+            }
+
             <a asp-area="Identity" asp-page="/Account/Manage/ChangePassword" class="btn-action-outline">
                 Spremeni geslo
             </a>
@@ -52,6 +81,6 @@
                 <button type="submit" class="btn-action-danger">Odjava iz računa</button>
             </form>
         </div>
-        
+
     </div>
 </div>

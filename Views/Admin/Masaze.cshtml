@@ -59,13 +59,23 @@
                         </td>
                         <td class="text-end">
                             <div class="admin-actions justify-content-end">
-                                <form asp-action="DeleteMasaza" method="post" class="admin-actions__form" onsubmit="return confirm('Ali ste prepričani, da želite izbrisati to masažo?');">
-                                    @Html.AntiForgeryToken()
-                                    <input type="hidden" name="id" value="@m.IdMasaze" />
-                                    <button type="submit" class="admin-btn admin-btn--danger">
-                                        Izbriši
-                                    </button>
-                                </form>
+                                    <a asp-action="UrediMasazo"
+                                    asp-route-id="@m.IdMasaze"
+                                    class="admin-btn admin-btn--ghost">
+                                        Uredi
+                                    </a>
+
+                                    <form asp-action="DeleteMasaza"
+                                        method="post"
+                                        class="admin-actions__form"
+                                        onsubmit="return confirm('Ali ste prepričani, da želite izbrisati to masažo?');">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@m.IdMasaze" />
+                                        <button type="submit" class="admin-btn admin-btn--danger">
+                                            Izbriši
+                                        </button>
+                                    </form>
+                    
                             </div>
                         </td>
                     </tr>
