@@ -36,7 +36,7 @@ namespace MassageStudio.Controllers
 
             
             var result = await _signInManager.PasswordSignInAsync(
-                userName: email,     // UserName = Email
+                userName: email,     
                 password: password,
                 isPersistent: false,
                 lockoutOnFailure: false);

@@ -4,8 +4,6 @@
     <meta charset="utf-8" />
     <title>@ViewData["Title"] - MassageStudio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <!-- Bootstrap + CSS ALWAYS FIRST -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 
@@ -16,7 +14,6 @@
 
 <body class="@(ViewData["BodyClass"] as string ?? "")">
 
-    <!-- LOGIN MODAL (global) -->
         <div id="loginModal" class="login-modal" aria-hidden="true">
     <div class="login-modal__backdrop" onclick="closeLoginModal()"></div>
 
@@ -164,7 +161,6 @@
         const modal = document.getElementById('loginModal');
         const frame = document.getElementById('loginFrame');
 
-        // vrni nazaj na isto stran, kjer si kliknil "Prijava"
         const returnUrl = encodeURIComponent(window.location.pathname + window.location.search);
 
         frame.src = '/Identity/Account/Login?popup=1&returnUrl=' + encodeURIComponent(window.location.pathname + window.location.search);
@@ -185,7 +181,7 @@
         document.body.style.overflow = '';
     }
 
-    // ESC
+    // esc
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') closeLoginModal();
     });

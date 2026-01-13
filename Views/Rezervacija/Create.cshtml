@@ -17,14 +17,11 @@
         <form asp-action="Create" asp-controller="Rezervacija" method="post" class="booking-form">
             @Html.AntiForgeryToken()
 
-            <!-- To je bolje nastaviti v controllerju (varnost), ampak pustimo za zdaj -->
             <input type="hidden" asp-for="UserId"
                    value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" />
 
             <input type="hidden" asp-for="MasazaID" value="@Model.MasazaID" />
-
-            <div asp-validation-summary="All" class="booking-validation"></div>
-
+            
             <div class="booking-grid booking-grid-2">
                 <div class="booking-field">
                     <label class="booking-label">Ime</label>
@@ -60,7 +57,6 @@
             <div class="booking-grid booking-grid-2">
                 <div class="booking-field">
                     <label class="booking-label">Datum</label>
-                    <!-- text + flatpickr -->
                     <input id="bookingDate"
                            asp-for="Datum"
                            type="text"
@@ -108,11 +104,10 @@
 
             let termini = [];
 
-            // init flatpickr samo 1x
             const fp = flatpickr(dateInput, {
                 dateFormat: "Y-m-d",
                 disableMobile: true,
-                minDate: "today", // PREPREČI izbiro dni pred današnjim
+                minDate: "today", 
                 enable: [],
                 onChange: function(selectedDates, dateStr) {
                     fillTimes(dateStr);
@@ -141,26 +136,24 @@
             function fillTimes(dateStr) {
             resetTimeOnly();
 
-            // Pridobimo trenutni čas za primerjavo (lokalni čas brskalnika)
             const now = new Date();
             const isToday = dateStr === now.toISOString().split('T')[0];
 
             const terminiNaDatum = termini
                 .filter(t => (t.start || '').startsWith(dateStr))
                 .map(t => {
-                    const fullStartStr = t.start; // npr. "2023-10-27T14:30:00"
+                    const fullStartStr = t.start;
                     const timePart = fullStartStr.split('T')[1]?.substring(0, 5);
                     
-                    // Če je danes, preveri če je ura termina že pretekla
                     if (isToday) {
                         const termDateTime = new Date(fullStartStr);
                         if (termDateTime <= now) {
-                            return null; // Termin je že mimo
+                            return null; 
                         }
                     }
                     return timePart;
                 })
-                .filter(Boolean); // Odstrani null vrednosti
+                .filter(Boolean); 
 
             // unique + sort
             const uniqueTimes = [...new Set(terminiNaDatum)].sort();

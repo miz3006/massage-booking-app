@@ -9,7 +9,7 @@
   <ItemGroup>
     <PackageReference Include="FluentEmail.Smtp" Version="3.0.2" />
 
-    <!-- VSE na EF/ASP.NET Core 10.0.0 -->
+   
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="10.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="10.0.0" />
@@ -19,10 +19,9 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
 
-    <!-- Če uporabljaš SQL Server -->
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.0" />
 
-    <!-- Če uporabljaš SQLite, pusti to; če ne, jo lahko odstraniš -->
+  
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.0" />
 
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.0">

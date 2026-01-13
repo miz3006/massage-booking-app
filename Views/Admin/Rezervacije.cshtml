@@ -5,7 +5,6 @@
     ViewData["BodyClass"] = "subpage admin-page";
 }
 
-@* Hero sekcija *@
 <div class="subpage-hero">
     <div class="container">
         <h1>REZERVACIJE</h1>
@@ -14,7 +13,6 @@
 
 <div class="admin-wrap">
     
-    @* Hitri filtri na vrhu *@
     <div class="admin-filter-bar mb-4">
         <button class="filter-btn active" onclick="filterReservations('all', this)">VSE</button>
         <button class="filter-btn" onclick="filterReservations('today', this)">DANES</button>
@@ -28,22 +26,18 @@
         </div>
     }
 
-    @* Izpis kartic *@
     @foreach (var r in Model.OrderBy(x => x.Datum))
     {
         bool isToday = r.Datum.Date == DateTime.Today;
         bool isUpcoming = r.Datum.Date >= DateTime.Today;
 
-        @* Kartica z razredi za JS filtriranje *@
         <div class="res-item res-card @(isToday ? "is-today" : "") @(isUpcoming ? "filter-upcoming" : "filter-past")">
             
-            @* Levi blok: Čas in datum *@
             <div class="res-time-block">
                 <span class="res-date">@r.Datum.ToString("dd. MMM")</span>
                 <span class="res-hour">@r.CasPrihoda</span>
             </div>
 
-            @* Sredinski blok: Vsi ključni podatki *@
             <div class="res-info-block">
                 <div class="res-customer">
                     <strong>@r.Ime @r.Priimek</strong>
@@ -61,7 +55,6 @@
                 </div>
             </div>
 
-            @* Desni blok: Akcije *@
             <div class="res-actions">
                 <form asp-action="DeleteRezervacija" method="post" class="h-100">
                     @Html.AntiForgeryToken()
@@ -78,11 +71,10 @@
 @section Scripts {
     <script>
         function filterReservations(type, btn) {
-            // 1. Posodobi gumbe
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
-            // 2. Filtriraj kartice
+            
             const items = document.querySelectorAll('.res-item');
             
             items.forEach(item => {

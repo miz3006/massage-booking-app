@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
         events: '/Rezervacija/GetEvents',
 
         dateClick: function(info) {
-            // ob kliku na datum → odpre izbiro ure
+            
             window.location.href = '/Rezervacija/Create?idMasaze=1&datum=' + info.dateStr;
         }
     });

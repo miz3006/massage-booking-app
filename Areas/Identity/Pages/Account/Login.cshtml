@@ -3,8 +3,6 @@
 
 @{
     ViewData["Title"] = "Prijava";
-
-    // V Razor Pages uporabljaj Request (ne Context)
     var isPopup = Request.Query.ContainsKey("popup");
     ViewData["BodyClass"] = isPopup ? "auth-popup" : "auth-background";
 }
@@ -13,10 +11,8 @@
     <div class="auth-card">
         <h1 class="auth-title">PRIJAVA</h1>
 
-        <!-- KLJUČ: target="_top" samo za popup -->
         <form id="account" method="post" target="@(isPopup ? "_top" : null)">
             
-            <!-- KLJUČ: ReturnUrl mora biti v postu -->
             <input type="hidden" asp-for="ReturnUrl" />
 
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>

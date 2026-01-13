@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Termini";
     ViewData["BodyClass"] = "subpage admin-page";
-    // Združimo termine po datumu za lepši izpis
+    // zdruzimo termine po datumu 
     var terminiPoDnevih = Model.GroupBy(t => t.Datum.Date).OrderBy(g => g.Key);
 }
 

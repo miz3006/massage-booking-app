@@ -53,8 +53,6 @@ namespace MassageStudio.Controllers.Api
         // =========================
         // POST: api/v1/maser
         // =========================
-        // (če hočeš samo admin, odkomentiraj)
-        // [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Maser maser)
         {
@@ -84,7 +82,6 @@ namespace MassageStudio.Controllers.Api
         // =========================
         // PUT: api/v1/maser/5
         // =========================
-        // [Authorize(Roles = "Admin")]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(int id, [FromBody] Maser dto)
         {
@@ -100,8 +97,7 @@ namespace MassageStudio.Controllers.Api
             maser.opis = dto.opis;
             maser.datumRojstva = dto.datumRojstva;
 
-            // slika pusti kot je (upload dela poseben endpoint)
-            // maser.slika = dto.slika;  // <- ne priporočam tukaj
+        
 
             await _context.SaveChangesAsync();
             return NoContent();
@@ -110,7 +106,6 @@ namespace MassageStudio.Controllers.Api
         // =========================
         // DELETE: api/v1/maser/5
         // =========================
-        // [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -126,7 +121,6 @@ namespace MassageStudio.Controllers.Api
         // =========================
         // POST: api/v1/maser/5/slika  (UPLOAD)
         // =========================
-        // [Authorize(Roles = "Admin")]
         [HttpPost("{id:int}/slika")]
         [RequestSizeLimit(10_000_000)] // 10MB
         public async Task<IActionResult> UploadImage(int id, IFormFile file)
@@ -153,7 +147,7 @@ namespace MassageStudio.Controllers.Api
                 await file.CopyToAsync(stream);
             }
 
-            // v bazo shrani samo filename (nvarchar(255) OK)
+            // v bazo shrani samo filename 
             maser.slika = fileName;
             await _context.SaveChangesAsync();
 

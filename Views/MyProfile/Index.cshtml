@@ -47,7 +47,7 @@
 
         <div class="profile-actions">
 
-            @* ADMIN toggle gumb *@
+           
             @if (User.IsInRole("Admin"))
             {
                 var adminMode = Context.Request.Cookies["admin_mode"] == "1";

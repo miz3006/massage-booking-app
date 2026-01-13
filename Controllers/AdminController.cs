@@ -24,15 +24,10 @@ public class AdminController : Controller
         _env = env;
     }
 
-    // 🔹 ADMIN DASHBOARD
     public IActionResult Index()
     {
         return View();
     }
-
-    // =========================
-    // TERMINI
-    // =========================
     public IActionResult CreateTermin()
     {
         return View();
@@ -50,14 +45,6 @@ public class AdminController : Controller
 
         return RedirectToAction(nameof(Index));
     }
-
-    // =========================
-    // STRANKE (UPORABNIKI)
-    // =========================
-
-    // =========================
-    // STRANKE (UPORABNIKI) - DODATEK ZA UREJANJE
-    // =========================
 
     // GET: /Admin/UrediUporabnika/id
     [HttpGet]
@@ -79,25 +66,21 @@ public class AdminController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> UrediUporabnika(ApplicationUser model)
     {
-        // Poiščemo obstoječega uporabnika, da ne povoziš gesla in ostalih sistemskih polj
         var user = await _userManager.FindByIdAsync(model.Id);
         if (user == null)
             return NotFound();
 
-        // Posodobimo samo dovoljena polja
         user.FirstName = model.FirstName;
         user.LastName = model.LastName;
         user.PhoneNumber = model.PhoneNumber;
 
-        // Izvedemo posodobitev preko UserManagerja
         var result = await _userManager.UpdateAsync(user);
 
         if (result.Succeeded)
         {
-            return RedirectToAction(nameof(Stranke)); // Preusmeritev nazaj na seznam strank
+            return RedirectToAction(nameof(Stranke)); 
         }
 
-        // Če pride do napak (npr. neveljaven telefon), jih izpišemo v View
         foreach (var error in result.Errors)
         {
             ModelState.AddModelError("", error.Description);
@@ -125,7 +108,6 @@ public class AdminController : Controller
         if (await _userManager.IsInRoleAsync(user, "Admin"))
             return BadRequest("Admin uporabnika ni dovoljeno izbrisati.");
 
-        // zaščita samega sebe
         if (user.Id == _userManager.GetUserId(User))
             return BadRequest("Ne moreš izbrisati samega sebe.");
 
@@ -139,14 +121,11 @@ public class AdminController : Controller
         return RedirectToAction(nameof(Stranke));
     }
 
-    // =========================
-    // REZERVACIJE
-    // =========================
     public async Task<IActionResult> Rezervacije()
     {
         var rezervacije = await _context.Rezervacije
-            .Include(r => r.Maser) // virtual property bo potrebno dodati v model
-            .Include(r => r.Masaza) // virtual property bo potrebno dodati v model
+            .Include(r => r.Maser) 
+            .Include(r => r.Masaza) 
             .OrderBy(r => r.Datum)
             .ThenBy(r => r.CasPrihoda)
             .ToListAsync();
@@ -179,8 +158,7 @@ public class AdminController : Controller
 
         return View(termini);
     }
-    // GET
-    // GET: UstvariTermin
+
     // GET: UstvariTermin
     public IActionResult UstvariTermin()
     {
@@ -219,9 +197,6 @@ public class AdminController : Controller
 
         ViewBag.Maserji = new SelectList(maserji, "IdMaserja", "FullName", model.MaserID);
 
-        // ======================
-        // MODELSTATE DEBUG
-        // ======================
         if (!ModelState.IsValid)
         {
             foreach (var key in ModelState.Keys)
@@ -238,9 +213,7 @@ public class AdminController : Controller
 
         try
         {
-            // ======================
-            // PREVERJANJE PODVOJITEV
-            // ======================
+            
             bool obstaja = await _context.Termini.AnyAsync(t =>
                 t.Datum == model.Datum &&
                 t.Cas_prihoda == model.Cas_prihoda &&
@@ -255,9 +228,7 @@ public class AdminController : Controller
                 return View(model);
             }
 
-            // ======================
-            // SHRANJEVANJE
-            // ======================
+            
             model.Zaseden = false;
 
             _context.Termini.Add(model);
@@ -267,7 +238,7 @@ public class AdminController : Controller
         }
         catch (Exception ex)
         {
-            Console.WriteLine("🔥 EXCEPTION PRI SHRANJEVANJU");
+            Console.WriteLine("EXCEPTION PRI SHRANJEVANJU");
             Console.WriteLine(ex.ToString());
 
             ModelState.AddModelError("", ex.Message);
@@ -288,11 +259,8 @@ public class AdminController : Controller
 
         return RedirectToAction(nameof(Termini));
     }
-    ///MASERJI
-    // ==========================
-    // ADMIN – UPRAVLJANJE
-    // ==========================
 
+    
     // GET: /Admin/EditMaserja/5
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> EditMaserja(int id)
@@ -311,13 +279,11 @@ public class AdminController : Controller
     public async Task<IActionResult> EditMaserja(Maser model, IFormFile? slikaFile)
     {
         
-        // 1. Preverimo validacijo (npr. če so vsa obvezna polja izpolnjena)
         if (!ModelState.IsValid)
         {
             return View(model);
         }
 
-        // 2. Poiščemo obstoječega maserja v bazi po ID-ju
         var dbMaser = await _context.Maserji.FindAsync(model.IdMaserja);
         
         if (dbMaser == null)
@@ -325,32 +291,25 @@ public class AdminController : Controller
             return NotFound();
         }
 
-        // 3. POSODOBITEV VSEH TEKSTOVNIH IN DATUMSKIH POLJ
         dbMaser.imeMaserja = model.imeMaserja;
         dbMaser.priimekMaserja = model.priimekMaserja;
         dbMaser.eMail = model.eMail;
         dbMaser.opis = model.opis;
         dbMaser.datumRojstva = model.datumRojstva;
 
-        // 4. POSEBNA LOGIKA ZA SLIKO (posodobi se samo, če je naložena nova datoteka)
         if (slikaFile != null && slikaFile.Length > 0)
         {
-            // Priprava poti za shranjevanje
             var folder = Path.Combine(_env.WebRootPath, "images", "maserji");
             if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
 
-            // Generiranje unikatnega imena
             var ext = Path.GetExtension(slikaFile.FileName).ToLowerInvariant();
             var fileName = $"{Guid.NewGuid()}{ext}";
             var fullPath = Path.Combine(folder, fileName);
 
-            // Shranjevanje nove datoteke na disk
             using (var stream = new FileStream(fullPath, FileMode.Create))
             {
                 await slikaFile.CopyToAsync(stream);
             }
-
-            // Če je maser že imel staro sliko, jo izbrišemo iz diska (da ne smetimo)
             if (!string.IsNullOrEmpty(dbMaser.slika))
             {
                 var oldPath = Path.Combine(folder, dbMaser.slika);
@@ -360,14 +319,11 @@ public class AdminController : Controller
                 }
             }
 
-            // V bazo zapišemo novo ime slike
             dbMaser.slika = fileName;
         }
-        // Če slikaFile NI naložena, dbMaser.slika ostane takšna, kot je bila prej v bazi.
 
         try
         {
-            // 5. Shranimo vse spremembe v bazo
             _context.Maserji.Update(dbMaser);
             await _context.SaveChangesAsync();
             
@@ -399,7 +355,6 @@ public class AdminController : Controller
     }
 
     // POST: /Maser/Create
-    // POST: /Maser/Create
     [HttpPost]
     [Authorize(Roles = "Admin")]
     [ValidateAntiForgeryToken]
@@ -408,7 +363,6 @@ public class AdminController : Controller
         if (!ModelState.IsValid)
             return View(model);
 
-        // --- 1. LOGIKA ZA NALAGANJE SLIKE ---
         if (slikaFile != null && slikaFile.Length > 0)
         {
             // Preveri končnico
@@ -421,38 +375,31 @@ public class AdminController : Controller
                 return View(model);
             }
 
-            // Pripravi pot: wwwroot/images/maserji
+            //wwwroot/images/maserji
             var folder = Path.Combine(_env.WebRootPath, "images", "maserji");
             if (!Directory.Exists(folder))
             {
                 Directory.CreateDirectory(folder);
             }
 
-            // Ustvari unikatno ime datoteke (da ne povozimo starih slik z istim imenom)
             var fileName = $"{Guid.NewGuid()}{ext}";
             var fullPath = Path.Combine(folder, fileName);
 
-            // Shrani datoteko na disk
             using (var stream = new FileStream(fullPath, FileMode.Create))
             {
                 await slikaFile.CopyToAsync(stream);
             }
 
-            // V bazo shranimo samo ime datoteke (npr. "guid-123.jpg")
-            // Tvoj View za prikaz (Osebje) zna to prebrati, ker imaš logiko za "else { ... maser.slika }"
             model.slika = fileName;
         }
 
-        // --- 2. LOGIKA ZA ID (Obstoječe) ---
-        // ročni "auto increment"
         var maxId = await _context.Maserji.MaxAsync(m => (int?)m.IdMaserja) ?? 0;
         model.IdMaserja = maxId + 1;
 
-        // --- 3. SHRANJEVANJE V BAZO ---
         _context.Maserji.Add(model);
         await _context.SaveChangesAsync();
 
-        TempData["Success"] = "Maser uspešno dodan s sliko."; // Opcijsko obvestilo
+        TempData["Success"] = "Maser uspešno dodan s sliko."; 
         return RedirectToAction(nameof(Maserji));
     }
 
@@ -484,13 +431,7 @@ public class AdminController : Controller
         return RedirectToAction(nameof(Maserji));
     }
 
-    // ==========================
-    // MASAŽE
-    // ==========================
 
-    // ==========================
-    // UREJANJE
-    // ==========================
 
     // GET: /Admin/UrediMasazo/5
     [Authorize(Roles = "Admin")]
@@ -513,7 +454,6 @@ public class AdminController : Controller
         if (!ModelState.IsValid)
             return View(model);
 
-        // Najbolj varno: naloži iz baze in prepiši polja (da ne povoziš ID-ja ipd.)
         var dbMasaza = await _context.Masaze.FindAsync(model.IdMasaze);
         if (dbMasaza == null)
             return NotFound();
@@ -557,7 +497,6 @@ public class AdminController : Controller
         if (!ModelState.IsValid)
             return View(model);
 
-        // ročni auto-increment (ker imaš DatabaseGenerated.None)
         var maxId = await _context.Masaze.MaxAsync(m => (int?)m.IdMasaze) ?? 0;
         model.IdMasaze = maxId + 1;
 

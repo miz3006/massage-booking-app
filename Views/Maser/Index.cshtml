@@ -19,10 +19,9 @@
     <div class="staff-grid">
         @foreach (var maser in Model)
         {
-            // 1. Deklariraj spremenljivko (lahko ji daš začetno vrednost null ali prazen niz, da preprečiš error)
             string imgSrc = ""; 
 
-            // 2. Logika za določanje poti
+        
             if (string.IsNullOrWhiteSpace(maser.slika))
             {
                 imgSrc = Url.Content("~/images/default.png");
@@ -41,13 +40,11 @@
             }
             else
             {
-                // --- POPRAVEK JE TUKAJ ---
-                // Prej si tukaj imel <img ...>, kar je narobe. 
-                // Moraš samo nastaviti pot do slike, tako kot v zgornjih pogojih.
+                
                 imgSrc = Url.Content($"~/images/maserji/{maser.slika}");
             }
 
-            // 3. Izris kartice (zdaj ima imgSrc vedno vrednost)
+        
             <div class="staff-card">
                 <div class="staff-photo">
                     <img src="@imgSrc"

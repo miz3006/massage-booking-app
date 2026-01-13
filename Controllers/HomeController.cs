@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MassageStudio.Data;
-using Microsoft.EntityFrameworkCore; // (ni nujno, ampak je ok)
+using Microsoft.EntityFrameworkCore; 
 using System.Linq;
 
 namespace MasazeBooking.Controllers

@@ -23,13 +23,11 @@ builder.Services
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
-// ✅ Swagger (za API dokumentacijo)
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// (tvoj admin seed naj ostane kot imaš)
 
 if (!app.Environment.IsDevelopment())
 {
@@ -40,7 +38,6 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-// ✅ Swagger UI (jaz priporočam samo v Development)
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -55,8 +52,6 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-
-// ✅ NUJNO: mapiranje API controllerjev (attribute routes)
 app.MapControllers();
 
 app.MapRazorPages();

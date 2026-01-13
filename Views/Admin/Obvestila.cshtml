@@ -12,7 +12,6 @@
 </div>
 
 <div class="admin-wrap">
-    @* Seznam kartic, sortiran od najnovejših naprej *@
     @foreach (var o in Model.OrderByDescending(x => x.DatumObjave))
     {
         <div class="notif-card">

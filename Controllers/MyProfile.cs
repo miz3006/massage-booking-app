@@ -38,7 +38,7 @@ namespace MasazeBooking.Controllers
                 "1",
                 new CookieOptions
                 {
-                    Path = "/",                 // ✅ pomembno
+                    Path = "/",                 
                     HttpOnly = true,
                     Secure = Request.IsHttps,
                     SameSite = SameSiteMode.Lax,
@@ -59,7 +59,7 @@ namespace MasazeBooking.Controllers
                 "admin_mode",
                 new CookieOptions
                 {
-                    Path = "/"                  // ✅ mora bit isto kot Append
+                    Path = "/"                  
                 });
 
             return RedirectToAction("", "Home");

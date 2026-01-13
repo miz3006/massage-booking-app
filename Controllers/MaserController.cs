@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
-namespace MassageStudio.Controllers // Preveri, če je namespace pravi
+namespace MassageStudio.Controllers 
 {
     public class MaserController : Controller
     {
@@ -16,10 +16,8 @@ namespace MassageStudio.Controllers // Preveri, če je namespace pravi
         }
 
         // GET: /Maser
-        // Ta metoda manjka, zato dobiš 404 napako!
         public async Task<IActionResult> Index()
         {
-            // Pridobi vse maserje iz baze
             var maserji = await _context.Maserji.ToListAsync();
             
             // Vrne View: Views/Maser/Index.cshtml

@@ -19,7 +19,6 @@ namespace MasazeBooking.Controllers.Api
             _context = context;
         }
 
-        // DTO (brez idMasaze) -> Swagger ne bo kazal idMasaze
         public class MasazaDto
         {
             public string NazivMasaze { get; set; } = "";
@@ -74,7 +73,7 @@ namespace MasazeBooking.Controllers.Api
             if (string.IsNullOrWhiteSpace(dto.NazivMasaze))
                 return BadRequest("NazivMasaze je obvezen.");
 
-            // ročni auto-increment (isto kot v AdminControllerju)
+          
             var maxId = await _context.Masaze.MaxAsync(m => (int?)m.IdMasaze) ?? 0;
             var newId = maxId + 1;
 

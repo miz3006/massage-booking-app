@@ -84,25 +84,22 @@
             const registerBtn = document.getElementById('registerSubmit');
             const terms = document.getElementById('terms');
             
-            // Izberemo vsa vnosna polja znotraj forme
             const inputs = form.querySelectorAll('input[required], input.form-control');
 
             function checkForm() {
                 let allFilled = true;
 
-                // Preveri če so tekstovna polja polna
                 inputs.forEach(input => {
                     if (input.value.trim() === "") {
                         allFilled = false;
                     }
                 });
 
-                // Preveri če je checkbox obkljukan
+                
                 if (!terms.checked) {
                     allFilled = false;
                 }
 
-                // Posodobi gumb
                 if (allFilled) {
                     registerBtn.disabled = false;
                     registerBtn.classList.add('is-active');
@@ -112,11 +109,9 @@
                 }
             }
 
-            // Poslušaj vpisovanje in klike
             form.addEventListener('input', checkForm);
             terms.addEventListener('change', checkForm);
             
-            // Zaženemo enkrat ob nalaganju (če brskalnik sam izpolni polja)
             checkForm();
         });
     </script>
