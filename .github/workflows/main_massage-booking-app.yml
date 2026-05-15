@@ -46,16 +46,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: .net-app
-<<<<<<< HEAD
-      
-      - name: Login to Azure
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_F6DF4068541A4D93A3A703E84CC0DA05 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_8ABD7633DB504791B3D9C8AE15D14059 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_EA531A00E76144E1A8BEBC2ED32E881E }}
-=======
->>>>>>> 273d31b (Switch to publish profile auth)
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
