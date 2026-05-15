@@ -52,7 +52,6 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'massage-booking-app2'
-          slot-name: 'Production'
           publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
           package: .
           
