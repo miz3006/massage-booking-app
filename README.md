@@ -84,6 +84,13 @@ Podatkovno bazo in Android vmesnik sva razvijala skupaj.
 
 ---
 
+**Slika 5 in 6:** Mobilna apliakcija 
+
+<img width="349" height="614" alt="image" src="https://github.com/user-attachments/assets/cd3681eb-0160-42c7-8e36-ec258232d816" />
+<img width="340" height="611" alt="image" src="https://github.com/user-attachments/assets/5411562c-eec5-4122-af8e-e48b2ef795c4" />
+
+---
+
 ## Opis podatkovnega modela
 
 Podatkovni model omogoča upravljanje:
