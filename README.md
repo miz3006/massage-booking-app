@@ -37,19 +37,6 @@ Aplikacija je dostopna na računalniku in mobilnih napravah.
 
 ---
 
-## Tehnologije
-
-| Komponenta | Tehnologija |
-|---|---|
-| Backend | ASP.NET Core 10 MVC (C#) |
-| Frontend | Razor Views, Bootstrap 5 |
-| Baza | Azure SQL (Entity Framework Core 10) |
-| Avtentikacija | ASP.NET Identity (cookie-based) |
-| Mobilna app | Android (Kotlin, MVVM, Retrofit2) |
-| Gostovanje | Azure App Service |
-
----
-
 ## Mobilna aplikacija
 
 Android admin aplikacija omogoča:
