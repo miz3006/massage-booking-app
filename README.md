@@ -1,73 +1,72 @@
-# **Spletna aplikacija za rezervacijo azijskih masaž**
+# Spletna aplikacija za rezervacijo azijskih masaž
 
-**Povezava do aplikacije:**  
-https://rezervacijamasazweb-gmcqfmgeewh8fnaw.swedencentral-01.azurewebsites.net/Home  
+**Aplikacija:** https://massage-booking-app2-a2ayhkf8cyc8hed5.swedencentral-01.azurewebsites.net
 
 ---
 
 ## Člana ekipe
 
-- **63240212 – Edis Mizić**  
-- **63240010 – Aleks Ašanin**
+| Vpisna št. | Ime in priimek |
+|---|---|
+| 63240212 | Edis Mizić |
+| 63240010 | Aleks Ašanin |
 
 ---
 
 ## Opis projekta
 
-V današnjem hitrem svetu, kjer nam pogosto primanjkuje časa in je tempo življenja vse bolj dinamičen, postajata udobje in enostaven dostop do storitev ključnega pomena. Uporabniki si želimo preprostih in učinkovitih rešitev, ki nam omogočajo hitro urejanje opravkov brez nepotrebnih zapletov.
+Spletna aplikacija za **rezervacijo azijskih masaž**, namenjena masažnim salonom in njihovim strankam. Stranka brez telefonskega klica ali osebnega obiska v nekaj klikih rezervira termin — izbere vrsto masaže, trajanje, maserja in željeni čas.
 
-Z mislijo na to sva razvila **spletno aplikacijo za rezervacijo azijskih masaž**, ki masažnim salonom omogoča lažje poslovanje, strankam pa prijetno in enostavno uporabniško izkušnjo. Aplikacija omogoča **hitro spletno rezervacijo termina** brez telefonskega klica ali osebnega obiska.
-
-Uporabnik lahko izbere:
-- vrsto masaže,
-- trajanje,
-- maserja,
-- termin, ki mu najbolj ustreza.
-
-Vse to je dostopno prek računalnika ali mobilne naprave.
+Aplikacija je dostopna na računalniku in mobilnih napravah.
 
 ---
 
-## Uporabniška izkušnja
+## Funkcionalnosti
 
-- **Registracija ni potrebna** za ogled ponudbe in opisov masaž.  
-- Za izvedbo rezervacije se uporabnik hitro registrira in ustvari svoj profil.  
-- Po uspešni rezervaciji sistem termin **samodejno označi kot zaseden** v koledarju salona.  
+**Stranka:**
+- Ogled masaž in opisa storitev brez registracije
+- Registracija in upravljanje lastnega profila
+- Spletna rezervacija termina
+- Pregled lastnih rezervacij
 
-Posebna prednost sistema je **delovanje v realnem času**, saj se vsi podatki o prostih in zasedenih terminih takoj posodobijo. To preprečuje dvojne rezervacije in zagotavlja usklajenost med strankami in osebjem.
-
----
-
-## Administrativni del
-
-Za zaposlene in administratorje aplikacija omogoča:
-- pregled in upravljanje terminov,
-- upravljanje osebja in njihove razpoložljivosti,
-- dodajanje in urejanje masaž,
-- vpogled v rezervacije in povratne informacije uporabnikov.
+**Administrator:**
+- Upravljanje masaž, maserjev in terminov
+- Pregled vseh rezervacij
+- Pošiljanje obvestil strankam
+- Statistika rezervacij
 
 ---
 
-## Razdelitev dela in sodelovanje
+## Tehnologije
 
-Projekt sva si razdelila tako, da se je:
-- **eden izmed naju** osredotočil predvsem na **backend in poslovno logiko**, vključno z rezervacijami, administrativnim delom, upravljanjem terminov in drugimi funkcionalnimi podrobnostmi,
-- **drugi** pa je prevzel **frontend**, kjer je skrbel za vizualno podobo in uporabniško izkušnjo.
-
-**Podatkovno bazo sva razvijala skupaj**, pri čemer sva se ves čas dopolnjevala. Pogosto je eden opazil pomanjkljivosti ali možnosti za izboljšave, ki jih je drugi sprva spregledal, nato pa sva jih skupaj predebatirala in nadgradila.
-
-Na enak način sva sodelovala tudi pri razvoju **Android vmesnika**, kjer sva si izmenjevala ideje in iskala najbolj optimalne rešitve.
+| Komponenta | Tehnologija |
+|---|---|
+| Backend | ASP.NET Core 10 MVC (C#) |
+| Frontend | Razor Views, Bootstrap 5 |
+| Baza | Azure SQL (Entity Framework Core 10) |
+| Avtentikacija | ASP.NET Identity (cookie-based) |
+| Mobilna app | Android (Kotlin, MVVM, Retrofit2) |
+| Gostovanje | Azure App Service |
 
 ---
 
-## Namen in cilj projekta
+## Mobilna aplikacija
 
-S projektom želiva ustvariti sistem, ki združuje:
-- **udobje za uporabnike**,  
-- **preglednost podatkov**,  
-- **zanesljivost delovanja**.
+Android admin aplikacija omogoča:
+- Pregled in dodajanje masaž
+- Statistiko rezervacij (skupaj, danes, mesec)
+- Lestvico po masaži in maserju
 
-Strankam omogoča hitro in enostavno pot do sprostitve, masažnemu salonu pa učinkovito orodje za organizacijo dela. Takšen sistem predstavlja pomemben korak k digitalizaciji poslovanja in konkurenčno prednost na trgu.
+Komunikacija poteka prek REST API-ja z avtentikacijo prek API ključa.
+
+---
+
+## Razdelitev dela
+
+- **Edis Mizić** — backend, poslovna logika, rezervacijski sistem, API, Android app
+- **Aleks Ašanin** — frontend, vizualna podoba, uporabniška izkušnja
+
+Podatkovno bazo in Android vmesnik sva razvijala skupaj.
 
 ---
 
