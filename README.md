@@ -1,4 +1,4 @@
-# Spletna aplikacija za rezervacijo azijskih masaž
+ Spletna aplikacija za rezervacijo azijskih masaž
 
 **Aplikacija:** https://massage-booking-app2-a2ayhkf8cyc8hed5.swedencentral-01.azurewebsites.net
 
@@ -73,18 +73,12 @@ Podatkovno bazo in Android vmesnik sva razvijala skupaj.
 
 **Slika 3:** Admin podstran za urejanje in dodajanje masaž  
 
-<img width="1648" height="912" alt="Admin masaže" src="https://github.com/user-attachments/assets/34f22e03-b9b6-41ea-9bce-59ab87794d75" />
+<img width="1638" height="918" alt="image" src="https://github.com/user-attachments/assets/182bdb2a-130e-49e6-a267-c13e5b3c230b" />
+
 
 ---
 
-**Sliki 4 in 5:** Mobilna aplikacija – izpis in dodajanje novih masaž  
-
-<img width="354" height="462" alt="Mobilna aplikacija 1" src="https://github.com/user-attachments/assets/7809025d-25ce-489f-a69e-7738519e84c6" />
-<img width="345" height="456" alt="Mobilna aplikacija 2" src="https://github.com/user-attachments/assets/20a32b5c-4f79-4e55-af66-534dd0efffe3" />
-
----
-
-**Slika 6:** Shema podatkovne baze  
+**Slika 4:** Shema podatkovne baze  
 
 <img width="631" height="654" alt="Shema baze" src="https://github.com/user-attachments/assets/6f0798f3-bfa4-4886-905b-9a1891f829c1" />
 
