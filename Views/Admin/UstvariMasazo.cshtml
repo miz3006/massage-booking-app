@@ -1,0 +1,77 @@
+@model MassageStudio.Models.Masaza
+
+@{
+    ViewData["Title"] = "Dodaj masažo";
+    ViewData["BodyClass"] = "subpage admin-page";
+}
+
+
+<div class="subpage-hero">
+    <div class="container">
+        <h1>DODAJ MASAŽO</h1>
+    </div>
+</div>
+
+<div class="admin-wrap">
+    <div class="admin-card">
+        <div class="admin-card__head">
+            <div>
+                <h2>Nova storitev</h2>
+                <p>Vnesite podrobnosti o novi masaži, ki jo želite dodati v ponudbo.</p>
+            </div>
+        </div>
+
+        <div class="admin-card__body">
+            <form asp-action="UstvariMasazo" method="post" class="admin-form-modern">
+                @Html.AntiForgeryToken()
+
+                <div class="admin-form-grid">
+                    <div class="form-group full-width">
+                        <label class="admin-label-small">NAZIV MASAŽE</label>
+                        <input asp-for="NazivMasaze" class="admin-input-field" placeholder="npr. Klasična švedska masaža" />
+                        <span asp-validation-for="NazivMasaze" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="admin-label-small">OPIS STORITVE</label>
+                        <textarea asp-for="Opis" rows="4" class="admin-input-field" placeholder="Podroben opis poteka masaže in njenih učinkov..."></textarea>
+                        <span asp-validation-for="Opis" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="admin-label-small">TRAJANJE (MIN)</label>
+                        <input asp-for="TrajanjeMasaze" type="number" class="admin-input-field" placeholder="60" />
+                        <span asp-validation-for="TrajanjeMasaze" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="admin-label-small">CENA (€)</label>
+                        <input asp-for="Cena" type="number" step="0.01" class="admin-input-field" placeholder="55.00" />
+                        <span asp-validation-for="Cena" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="admin-label-small">VRSTA</label>
+                        <input asp-for="Vrsta" class="admin-input-field" placeholder="npr. Terapevtska" />
+                        <span asp-validation-for="Vrsta" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="admin-label-small">KRATICA</label>
+                        <input asp-for="Kratica" class="admin-input-field" placeholder="npr. KLA" />
+                        <span asp-validation-for="Kratica" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="admin-form-footer">
+                    <a asp-action="Masaze" class="admin-btn admin-btn--ghost">Nazaj</a>
+                    <button type="submit" class="admin-btn admin-btn--primary">Shrani masažo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

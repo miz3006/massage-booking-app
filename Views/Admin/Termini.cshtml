@@ -1,0 +1,91 @@
+@model IEnumerable<MassageStudio.Models.Termin>
+@{
+    ViewData["Title"] = "Termini";
+    ViewData["BodyClass"] = "subpage admin-page";
+    var terminiPoDnevih = Model.GroupBy(t => t.Datum.Date).OrderBy(g => g.Key);
+}
+
+<div class="subpage-hero">
+    <div class="subpage-hero-inner">
+        <span class="subpage-hero-kicker">UPRAVLJANJE</span>
+        <h1>TERMINI</h1>
+        <p class="subpage-hero-sub">Nastavljajte razpoložljive termine za maserje</p>
+    </div>
+</div>
+
+<div class="admin-wrap">
+    <div class="admin-card">
+        <div class="admin-card__head">
+            <div>
+                <h2>Upravljanje terminov</h2>
+                <p>Dodajajte in upravljajte razpoložljive termine.</p>
+            </div>
+            <a asp-action="UstvariTermin" class="admin-btn admin-btn--primary">
+                + Dodaj nov termin
+            </a>
+        </div>
+
+        <div class="admin-table-wrap">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th style="width: 110px;">Ura</th>
+                        <th style="width: auto;">Maser</th>
+                        <th style="width: 130px;">Status</th>
+                        <th style="width: 120px;" class="text-end">Akcije</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var dan in terminiPoDnevih)
+                {
+                    <tr class="admin-table-group-row">
+                        <td colspan="4">
+                            @dan.Key.ToString("dd. MMMM yyyy")
+                            <span class="termin-count">(@dan.Count() terminov)</span>
+                        </td>
+                    </tr>
+                    @foreach (var t in dan)
+                    {
+                        <tr class="@(t.Zaseden ? "is-zaseden" : "")">
+                            <td><strong>@t.Cas_prihoda.ToString(@"hh\:mm")</strong></td>
+
+                            <td>
+                                <div class="admin-actions">
+                                    @if (t.Maser != null)
+                                    {
+                                        <img src="~/images/maserji/@(string.IsNullOrEmpty(t.Maser.slika) ? "default.png" : t.Maser.slika)" class="mini-avatar" />
+                                        <strong>@t.Maser.imeMaserja</strong>
+                                    }
+                                    else
+                                    {
+                                        <span class="admin-muted">Ni določen</span>
+                                    }
+                                </div>
+                            </td>
+
+                            <td>
+                                <span class="status-badge @(t.Zaseden ? "status-badge--busy" : "status-badge--free")">
+                                    <span class="status-dot"></span>
+                                    @(t.Zaseden ? "Zaseden" : "Prost")
+                                </span>
+                            </td>
+
+                            <td class="text-end">
+                                <div class="admin-actions justify-content-end">
+                                    <form asp-action="DeleteTermin" method="post" class="admin-actions__form" onsubmit="return confirm('Izbrišem termin?');">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@t.IdTermin" />
+                                        <button type="submit" class="admin-btn admin-btn--danger admin-btn--sm">
+                                            Izbriši
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,104 @@
+@model IEnumerable<Rezervacija>
+
+@{
+    ViewData["Title"] = "Rezervacije";
+    ViewData["BodyClass"] = "subpage admin-page";
+}
+
+<div class="subpage-hero">
+    <div class="subpage-hero-inner">
+        <span class="subpage-hero-kicker">PREGLED</span>
+        <h1>REZERVACIJE</h1>
+        <p class="subpage-hero-sub">Vse aktivne in pretekle rezervacije na enem mestu</p>
+    </div>
+</div>
+
+<div class="admin-wrap">
+    <div class="admin-card">
+        <div class="admin-card__head">
+            <div>
+                <h2>Pregled rezervacij</h2>
+                <p>Vse aktivne in pretekle rezervacije v sistemu.</p>
+            </div>
+            <div class="admin-filter-bar">
+                <button class="filter-btn active" onclick="filterReservations('all', this)">VSE</button>
+                <button class="filter-btn" onclick="filterReservations('today', this)">DANES</button>
+                <button class="filter-btn" onclick="filterReservations('upcoming', this)">PRIHAJAJOČE</button>
+            </div>
+        </div>
+
+        <div class="admin-table-wrap">
+            @if (!Model.Any())
+            {
+                <p class="admin-muted" style="padding: 24px 18px;">Trenutno ni nobene rezervacije v sistemu.</p>
+            }
+            else
+            {
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 130px;">Datum</th>
+                            <th style="width: 90px;">Ura</th>
+                            <th style="width: auto;">Stranka</th>
+                            <th style="width: 200px;">Masaža</th>
+                            <th style="width: 180px;">Maser</th>
+                            <th style="width: 120px;" class="text-end">Akcije</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var r in Model.OrderBy(x => x.Datum))
+                    {
+                        bool isToday = r.Datum.Date == DateTime.Today;
+                        bool isUpcoming = r.Datum.Date >= DateTime.Today;
+
+                        <tr class="res-item @(isToday ? "is-today" : "") @(isUpcoming ? "filter-upcoming" : "filter-past")">
+                            <td>
+                                <span class="res-date">@r.Datum.ToString("dd. MMM yyyy")</span>
+                            </td>
+                            <td><strong>@r.CasPrihoda</strong></td>
+                            <td>
+                                <strong>@r.Ime @r.Priimek</strong>
+                                <span class="admin-muted d-block" style="font-size: 13px;">@r.Telefon • @r.Email</span>
+                            </td>
+                            <td><span class="admin-muted">@(r.Masaza?.NazivMasaze ?? "Ni določeno")</span></td>
+                            <td><span class="admin-muted">@(r.Maser != null ? r.Maser.imeMaserja : "Ni določen")</span></td>
+                            <td class="text-end">
+                                <div class="admin-actions justify-content-end">
+                                    <form asp-action="DeleteRezervacija" method="post" class="admin-actions__form" onsubmit="return confirm('Ali ste prepričani, da želite izbrisati to rezervacijo?');">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@r.IdRez" />
+                                        <button type="submit" class="admin-btn admin-btn--danger admin-btn--sm">
+                                            Izbriši
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function filterReservations(type, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const items = document.querySelectorAll('.res-item');
+
+            items.forEach(item => {
+                if (type === 'all') {
+                    item.style.display = '';
+                } else if (type === 'today') {
+                    item.style.display = item.classList.contains('is-today') ? '' : 'none';
+                } else if (type === 'upcoming') {
+                    item.style.display = item.classList.contains('filter-upcoming') ? '' : 'none';
+                }
+            });
+        }
+    </script>
+}

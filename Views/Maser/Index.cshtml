@@ -1,0 +1,63 @@
+@model IEnumerable<Maser>
+
+@{
+    ViewData["Title"] = "Osebje";
+    ViewData["BodyClass"] = "subpage staff-page";
+}
+
+<div class="subpage-hero">
+    <div class="subpage-hero-inner">
+        <span class="subpage-hero-kicker">SPOZNAJTE NAS</span>
+        <h1>NAŠE OSEBJE</h1>
+        <p class="subpage-hero-sub">Strokovnjaki z dolgoletnimi izkušnjami v azijskih masažah</p>
+    </div>
+</div>
+
+<div class="subpage-content staff-page">
+    <div class="staff-grid">
+        @foreach (var maser in Model)
+        {
+            string imgSrc = "";
+
+            if (string.IsNullOrWhiteSpace(maser.slika))
+            {
+                imgSrc = Url.Content("~/images/default.png");
+            }
+            else if (maser.slika.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+            {
+                imgSrc = maser.slika;
+            }
+            else if (maser.slika.StartsWith("/"))
+            {
+                imgSrc = Url.Content("~" + maser.slika);
+            }
+            else if (maser.slika.Contains("/"))
+            {
+                imgSrc = Url.Content("~/" + maser.slika.TrimStart('/'));
+            }
+            else
+            {
+                imgSrc = Url.Content($"~/images/maserji/{maser.slika}");
+            }
+
+            <div class="staff-card">
+                <div class="staff-photo">
+                    <img src="@imgSrc"
+                         alt="@($"{maser.imeMaserja} {maser.priimekMaserja}")"
+                         class="staff-image"
+                         asp-append-version="true" />
+                    <div class="staff-namebar">
+                        <div class="staff-name">
+                            @maser.imeMaserja @maser.priimekMaserja
+                        </div>
+                    </div>
+                </div>
+
+                @if (!string.IsNullOrWhiteSpace(maser.opis))
+                {
+                    <p class="staff-desc">@maser.opis</p>
+                }
+            </div>
+        }
+    </div>
+</div>

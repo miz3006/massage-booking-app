@@ -1,0 +1,100 @@
+@model MassageStudio.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "Moj račun";
+    ViewData["BodyClass"] = "subpage profile-page-body";
+    var isAdmin = User.IsInRole("Admin");
+    var adminMode = Context.Request.Cookies["admin_mode"] == "1";
+}
+
+<div class="subpage-hero">
+    <div class="subpage-hero-inner">
+        <span class="subpage-hero-kicker">VAŠ RAČUN</span>
+        <h1>MOJ PROFIL</h1>
+        <p class="subpage-hero-sub">Upravljajte svoje osebne podatke</p>
+    </div>
+</div>
+
+<div class="subpage-content profile-page">
+    <div class="profile-layout">
+
+        <!-- Leva kartica: podatki -->
+        <div class="profile-main-card">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    @Model.FirstName[0]@Model.LastName[0]
+                </div>
+                <div class="profile-header-info">
+                    <h2>@Model.FirstName @Model.LastName</h2>
+                    <span class="profile-role-badge @(isAdmin ? "profile-role-badge--admin" : "")">
+                        @(isAdmin ? "Administrator" : "Stranka")
+                    </span>
+                </div>
+            </div>
+
+            <div class="profile-section-label">Osebni podatki</div>
+
+            <div class="profile-details">
+                <div class="profile-row">
+                    <span class="profile-row__key">Ime</span>
+                    <span class="profile-row__val">@Model.FirstName</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-row__key">Priimek</span>
+                    <span class="profile-row__val">@Model.LastName</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-row__key">E-naslov</span>
+                    <span class="profile-row__val">@Model.Email</span>
+                </div>
+                <div class="profile-row">
+                    <span class="profile-row__key">Telefon</span>
+                    <span class="profile-row__val">@(string.IsNullOrEmpty(Model.PhoneNumber) ? "—" : Model.PhoneNumber)</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Desna kartica: akcije -->
+        <div class="profile-side-card">
+            <div class="profile-section-label">Nastavitve računa</div>
+
+            <div class="profile-action-list">
+                @if (isAdmin)
+                {
+                    if (!adminMode)
+                    {
+                        <form asp-controller="MyProfile" asp-action="EnableAdminMode" method="post">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="profile-action-btn profile-action-btn--primary">
+                                Admin dashboard
+                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form asp-controller="MyProfile" asp-action="DisableAdminMode" method="post">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="profile-action-btn profile-action-btn--primary">
+                                Navadna stran
+                            </button>
+                        </form>
+                    }
+                }
+
+                <a asp-area="Identity" asp-page="/Account/Manage/ChangePassword" class="profile-action-btn">
+                    Spremeni geslo
+                </a>
+            </div>
+
+            <div class="profile-action-divider"></div>
+
+            <form asp-controller="Account" asp-action="Logout" method="post">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="profile-action-btn profile-action-btn--danger">
+                    Odjava iz računa
+                </button>
+            </form>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - MassageStudio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    @RenderSection("Styles", required: false)
+</head>
+
+
+
+<body class="@(ViewData["BodyClass"] as string ?? "")">
+
+        <div id="loginModal" class="login-modal" aria-hidden="true">
+    <div class="login-modal__backdrop" onclick="closeLoginModal()"></div>
+
+
+    <div class="login-modal__card" role="dialog" aria-modal="true">
+        <iframe id="loginFrame" class="login-modal__frame" src="" loading="lazy"></iframe>
+    </div>
+    </div>
+
+    @{
+        var isAdmin = User.IsInRole("Admin");
+        var adminMode = isAdmin && (Context.Request.Cookies["admin_mode"] == "1");
+    }
+
+    <header class="hero-nav @(adminMode ? "admin-navbar-theme" : "")">
+    <div class="hero-container hero-nav-inner">
+        <div class="logo">
+            <span class="logo-bold">Massage</span><span class="logo-light">Studio</span>
+            @if (adminMode)
+            {
+                <span class="admin-badge">ADMIN</span>
+            }
+        </div>
+
+        <nav class="nav-links">
+            @if (adminMode)
+            {
+                <a asp-controller="Admin" asp-action="Maserji">Osebje</a>
+                <a asp-controller="Admin" asp-action="Termini">Termini</a>
+                <a asp-controller="Admin" asp-action="Masaze">Masaže</a>
+                <a asp-controller="Admin" asp-action="Rezervacije">Rezervacije</a>
+                <a asp-controller="Admin" asp-action="Stranke">Stranke</a>
+                <a asp-controller="Admin" asp-action="Obvestila">Obvestila</a>
+            }
+            else
+            {
+                <a asp-controller="Home" asp-action="Index">Domov</a>
+                <a asp-controller="AboutUs" asp-action="Index">O nas</a>
+                <a asp-controller="Massages" asp-action="Index">Masaže</a>
+                <a asp-controller="Maser" asp-action="Index">Osebje</a>
+                <a asp-controller="Contact" asp-action="Index">Kontakt</a>
+            }
+        </nav>
+
+        <div class="header-actions">
+            @if (User.Identity?.IsAuthenticated ?? false)
+            {
+                <a asp-controller="MyProfile" asp-action="Index" class="btn-pill">
+                    Moj profil
+                </a>
+            }
+            else
+            {
+                <a href="javascript:void(0)" class="btn-pill" onclick="showLoginModal()">
+                    Prijava
+                </a>
+            }
+        </div>
+    </div>
+</header>
+
+    @{
+    var bodyClass = (ViewData["BodyClass"] as string) ?? "";
+    var isHome = bodyClass.Contains("home-page");
+}
+
+    @if (isHome)
+    {
+        <main role="main">
+            @RenderBody()
+        </main>
+    }
+    else
+    {
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+    }
+
+
+    <footer class="site-footer">
+    <div class="site-footer-inner">
+
+        <div class="footer-col footer-col-left">
+        <div class="footer-brand">MassageStudio</div>
+        <div class="footer-text">
+            Ljubljana, Center 12<br />
+            <a class="footer-link" href="tel:+38641123456">+386 41 123 456</a><br />
+            <a class="footer-link" href="mailto:info@masazestudio.si">info@masazestudio.si</a>
+        </div>
+
+        <div class="footer-actions">
+            <a asp-controller="Rezervacija" asp-action="Index" class="btn-main footer-btn">
+            Rezerviraj termin
+            </a>
+        </div>
+
+        <div class="footer-copy">© @DateTime.Now.Year · Vse pravice pridržane</div>
+        </div>
+
+        <div class="footer-col footer-col-links">
+        <div class="footer-title">Navigacija</div>
+        <div class="footer-nav">
+            <a asp-controller="Home" asp-action="Index">Domov</a>
+            <a asp-controller="AboutUs" asp-action="Index">O nas</a>
+            <a asp-controller="Massages" asp-action="Index">Masaže</a>
+            <a asp-controller="Maser" asp-action="Index">Osebje</a>
+            <a asp-controller="Contact" asp-action="Index">Kontakt</a>
+        </div>
+        </div>
+
+        <div class="footer-col footer-col-map">
+        <div class="footer-title">Lokacija</div>
+
+        <div class="footer-map">
+            <iframe
+            title="Lokacija salona"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            src="https://www.google.com/maps?q=Ljubljana%2C%20Center%2012&output=embed">
+            </iframe>
+        </div>
+
+        <a class="footer-map-link"
+            target="_blank"
+            rel="noopener"
+            href="https://www.google.com/maps/search/?api=1&query=Ljubljana%2C%20Center%2012">
+            Odpri v Google Maps →
+        </a>
+        </div>
+
+    </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", required: false)
+
+    <script>
+    function showLoginModal() {
+        const modal = document.getElementById('loginModal');
+        const frame = document.getElementById('loginFrame');
+
+        const returnUrl = encodeURIComponent(window.location.pathname + window.location.search);
+
+        frame.src = '/Identity/Account/Login?popup=1&returnUrl=' + encodeURIComponent(window.location.pathname + window.location.search);
+
+
+        modal.classList.add('is-open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLoginModal() {
+        const modal = document.getElementById('loginModal');
+        const frame = document.getElementById('loginFrame');
+
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden', 'true');
+        frame.src = '';
+        document.body.style.overflow = '';
+    }
+
+    // esc
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeLoginModal();
+    });
+    </script>
+
+
+
+</body>
+</html>

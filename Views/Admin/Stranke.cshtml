@@ -1,0 +1,76 @@
+@model IEnumerable<ApplicationUser>
+
+@{
+    ViewData["Title"] = "Uporabniki";
+    ViewData["BodyClass"] = "subpage admin-page users-page";
+}
+
+<div class="subpage-hero">
+    <div class="subpage-hero-inner">
+        <span class="subpage-hero-kicker">PREGLED</span>
+        <h1>STRANKE</h1>
+        <p class="subpage-hero-sub">Pregled in upravljanje registriranih uporabnikov</p>
+    </div>
+</div>
+
+<div class="admin-wrap">
+    <div class="admin-card">
+        <div class="admin-card__head">
+            <div>
+                <h2>Seznam strank</h2>
+                <p>Pregled registriranih uporabnikov v vašem sistemu.</p>
+            </div>
+            
+            <div class="admin-stats-pill">
+                Število strank: <strong>@ViewBag.ClientsCount</strong>
+            </div>
+        </div>
+
+        <div class="admin-table-wrap">
+
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th style="width: auto;">Ime in priimek</th>
+                        <th style="width: 250px;">E-naslov</th>
+                        <th style="width: 180px;">Telefon</th>
+                        <th style="width: 180px;" class="text-end">Akcije</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var u in Model)
+                {
+                    <tr>
+                        <td><strong>@u.FirstName @u.LastName</strong></td>
+                        <td><span class="admin-muted">@u.Email</span></td>
+                        <td><span class="code-plain">@u.PhoneNumber</span></td>
+                        <td class="text-end">
+                            <div class="admin-actions justify-content-end">
+                                <a asp-action="UrediUporabnika"
+                                asp-route-id="@u.Id"
+                                class="admin-btn admin-btn--ghost ">
+                                    Uredi
+                                </a>
+
+                                @if (u.Email != "admin@gmail.com")
+                                {
+                                    <form asp-action="DeleteUser"
+                                        method="post"
+                                        class="admin-actions__form"
+                                        onsubmit="return confirm('Izbrišem uporabnika?');">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@u.Id" />
+                                        <button type="submit" class="admin-btn admin-btn--danger ">
+                                            Izbriši
+                                        </button>
+                                    </form>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,73 @@
+@model IEnumerable<Obvestilo>
+
+@{
+    ViewData["Title"] = "Obvestila";
+    ViewData["BodyClass"] = "subpage admin-page";
+}
+
+<div class="subpage-hero">
+    <div class="subpage-hero-inner">
+        <span class="subpage-hero-kicker">SPOROČILA</span>
+        <h1>OBVESTILA</h1>
+        <p class="subpage-hero-sub">Sporočila in povpraševanja od strank</p>
+    </div>
+</div>
+
+<div class="admin-wrap">
+    <div class="admin-card">
+        <div class="admin-card__head">
+            <div>
+                <h2>Prejeta obvestila</h2>
+                <p>Sporočila in povpraševanja od registriranih strank.</p>
+            </div>
+        </div>
+
+        <div class="admin-table-wrap">
+            @if (!Model.Any())
+            {
+                <p class="admin-muted" style="padding: 24px 18px;">Ni prejetih obvestil.</p>
+            }
+            else
+            {
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 160px;">Datum</th>
+                            <th style="width: 220px;">Naslov</th>
+                            <th style="width: 220px;">Stranka</th>
+                            <th style="width: auto;">Sporočilo</th>
+                            <th style="width: 110px;" class="text-end">Akcije</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var o in Model.OrderByDescending(x => x.DatumObjave))
+                    {
+                        <tr>
+                            <td><span class="admin-muted">@o.DatumObjave.ToString("dd. MMM yyyy HH:mm")</span></td>
+                            <td><strong>@o.Naslov</strong></td>
+                            <td>
+                                <strong>@o.User?.FirstName @o.User?.LastName</strong>
+                                <span class="admin-muted d-block" style="font-size: 13px;">@o.User?.Email</span>
+                            </td>
+                            <td>
+                                <div class="desc-truncate">@o.Vsebina</div>
+                            </td>
+                            <td class="text-end">
+                                <div class="admin-actions justify-content-end">
+                                    <form asp-action="DeleteObvestilo" method="post" class="admin-actions__form" onsubmit="return confirm('Izbrišem to obvestilo?');">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@o.IdObvestila" />
+                                        <button type="submit" class="admin-btn admin-btn--danger admin-btn--sm">
+                                            Izbriši
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>

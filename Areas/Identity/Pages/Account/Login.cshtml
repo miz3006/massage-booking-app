@@ -1,0 +1,75 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Prijava";
+    var isPopup = Request.Query.ContainsKey("popup");
+    ViewData["BodyClass"] = isPopup ? "auth-popup" : "auth-background";
+}
+
+    <div class="auth-page">
+    <div class="auth-card">
+        <h1 class="auth-title">PRIJAVA</h1>
+
+        <form id="account" method="post" target="@(isPopup ? "_top" : null)">
+            
+            <input type="hidden" asp-for="ReturnUrl" />
+
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+            <div class="form-custom mb-3">
+                <input asp-for="Input.Email"
+                       class="form-control"
+                       autocomplete="username"
+                       aria-required="true"
+                       placeholder="E-mail..." />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-custom mb-3">
+                <input asp-for="Input.Password"
+                       class="form-control"
+                       autocomplete="current-password"
+                       aria-required="true"
+                       placeholder="Geslo..." />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <label asp-for="Input.RememberMe" class="form-label mb-0 remember-label">
+                    <input class="form-check-input" asp-for="Input.RememberMe" />
+                    @Html.DisplayNameFor(m => m.Input.RememberMe)
+                </label>
+
+                <a id="forgot-password" asp-page="./ForgotPassword" class="auth-link" target="_top">
+                    Pozabljeno geslo?
+                </a>
+            </div>
+
+            <button id="login-submit" type="submit" class="btn-auth w-100">
+                Prijava
+            </button>
+
+            <p class="already mt-4">
+                Še nimate računa?
+                <a asp-page="./Register" asp-route-returnUrl="/" target="_top">Ustvari račun</a>
+            </p>
+
+            <p class="already">
+                <a id="resend-confirmation" asp-page="./ResendEmailConfirmation" target="_top">
+                    Ponovno pošlji potrditveno e-pošto
+                </a>
+            </p>
+
+            <div class="dev-section">
+                <a href="/Account/DevLogin" class="btn-dev" target="@(isPopup ? "_top" : null)">
+                    ⚡ DEV &mdash; Prijava kot admin
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

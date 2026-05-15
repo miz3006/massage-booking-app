@@ -1,0 +1,93 @@
+@model MassageStudio.Models.Maser
+
+@{
+    ViewData["Title"] = "Dodaj maserja";
+    ViewData["BodyClass"] = "subpage admin-page";
+}
+
+@* Hero sekcija s prosojnim napisom, usklajena s stilom ostalih podstrani *@
+<div class="subpage-hero">
+    <div class="container">
+        <h1>DODAJ MASERJA</h1>
+    </div>
+</div>
+
+<div class="admin-wrap">
+    <div class="admin-card">
+        <div class="admin-card__head">
+            <div>
+                <h2>Novi član osebja</h2>
+                <p>Vnesite podatke za registracijo novega maserja v sistem.</p>
+            </div>
+        </div>
+
+        <div class="admin-card__body">
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success mb-4">@TempData["Success"]</div>
+            }
+
+            <form asp-action="UstvariMaserja" method="post" enctype="multipart/form-data" class="admin-form-modern">
+
+                @Html.AntiForgeryToken()
+
+                <div class="admin-form-grid">
+                    <div class="form-group">
+                        <label class="admin-label-small">IME</label>
+                        <input asp-for="imeMaserja" class="admin-input-field" placeholder="Janez" />
+                        <span asp-validation-for="imeMaserja" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="admin-label-small">PRIIMEK</label>
+                        <input asp-for="priimekMaserja" class="admin-input-field" placeholder="Novak" />
+                        <span asp-validation-for="priimekMaserja" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="admin-label-small">E-MAIL</label>
+                        <input asp-for="eMail" type="email" class="admin-input-field" placeholder="janez.novak@studio.si" />
+                        <span asp-validation-for="eMail" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="admin-label-small">DATUM ROJSTVA</label>
+                        <input asp-for="datumRojstva" type="date" class="admin-input-field" />
+                        <span asp-validation-for="datumRojstva" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="admin-label-small">OPIS MASERJA</label>
+                        <textarea asp-for="opis" rows="5" class="admin-input-field"
+                                placeholder="Vpišite kratek življenjepis in specializacije..."></textarea>
+                        <span asp-validation-for="opis" class="text-danger"></span>
+                    </div>
+
+                    
+                    <div class="form-group full-width">
+                        <label class="admin-label-small">SLIKA MASERJA</label>
+
+                        <input type="file"
+                            name="slikaFile"
+                            class="admin-input-field"
+                            accept="image/png,image/jpeg,image/webp" />
+
+                        <small class="admin-hint-text">
+                            Dovoljene: JPG, PNG, WEBP. Shrani se v <code>wwwroot/images/maserji/</code>
+                        </small>
+                    </div>
+                </div>
+
+                <div class="admin-form-footer">
+                    <a asp-action="Maserji" class="admin-btn admin-btn--ghost">Prekliči</a>
+                    <button type="submit" class="admin-btn admin-btn--primary">Dodaj v ekipo</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

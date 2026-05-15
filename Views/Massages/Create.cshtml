@@ -1,0 +1,40 @@
+@using MassageStudio.Models
+@model Masaza
+
+<h2>Dodaj masažo</h2>
+
+<form asp-action="Create" method="post">
+
+    <div class="mb-3">
+        <label asp-for="NazivMasaze" class="form-label"></label>
+        <input asp-for="NazivMasaze" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="TrajanjeMasaze" class="form-label"></label>
+        <input asp-for="TrajanjeMasaze" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Opis" class="form-label"></label>
+        <textarea asp-for="Opis" class="form-control"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Cena" class="form-label"></label>
+        <input asp-for="Cena" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Kratica" class="form-label"></label>
+        <input asp-for="Kratica" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Vrsta" class="form-label"></label>
+        <input asp-for="Vrsta" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-success">Shrani</button>
+    <a asp-action="Index" class="btn btn-secondary">Nazaj</a>
+</form>

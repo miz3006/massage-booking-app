@@ -1,0 +1,118 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Ustvari nov račun";
+    ViewData["BodyClass"] = "auth-background register-background"; 
+}
+
+<div class="register-split-wrapper">
+    <div class="register-form-area">
+        <div class="register-content-inner">
+            <h1 class="register-title">USTVARI NOV RAČUN</h1>
+
+            <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+                <div class="row gx-2">
+                    <div class="col-6">
+                        <div class="form-custom-group mb-3">
+                            <label>IME</label>
+                            <input asp-for="Input.FirstName" class="form-control" placeholder="Janez" />
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-custom-group mb-3">
+                            <label>PRIIMEK</label>
+                            <input asp-for="Input.LastName" class="form-control" placeholder="Novak" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-custom-group mb-3">
+                    <label>E-MAIL</label>
+                    <input asp-for="Input.Email" class="form-control" placeholder="ime@primer.si" />
+                </div>
+
+                <div class="form-custom-group mb-3">
+                    <label>TELEFON (GSM)</label>
+                    <input asp-for="Input.PhoneNumber" class="form-control" placeholder="041 123 456" />
+                </div>
+
+                <div class="form-custom-group mb-3">
+                    <label>GESLO</label>
+                    <input asp-for="Input.Password" type="password" class="form-control" placeholder="••••••••" />
+                </div>
+
+                <div class="form-custom-group mb-4">
+                    <label>POTRDI GESLO</label>
+                    <input asp-for="Input.ConfirmPassword" type="password" class="form-control" placeholder="••••••••" />
+                </div>
+
+                <div class="form-check mb-4 custom-check">
+                    <input class="form-check-input" type="checkbox" id="terms" />
+                    <label class="form-check-label" for="terms">
+                        Strinjam se s <a href="#" class="terms-link">pogoji uporabe</a>
+                    </label>
+                </div>
+
+                <button id="registerSubmit" type="submit" class="btn-register-main w-100" disabled>
+                    USTVARITE PROFIL
+                </button>
+
+                <p class="login-prompt mt-4">
+                    Imate že ustvarjen profil? <a asp-page="./Login">Prijavi se tukaj</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <div class="register-visual-area">
+        <div class="visual-overlay">
+            <div class="visual-text">
+                <h2>Vaš trenutek sprostitve se začne tukaj</h2>
+                <p>Pridružite se naši skupnosti in si zagotovite prednost pri rezervacijah.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.getElementById('registerForm');
+            const registerBtn = document.getElementById('registerSubmit');
+            const terms = document.getElementById('terms');
+            
+            const inputs = form.querySelectorAll('input[required], input.form-control');
+
+            function checkForm() {
+                let allFilled = true;
+
+                inputs.forEach(input => {
+                    if (input.value.trim() === "") {
+                        allFilled = false;
+                    }
+                });
+
+                
+                if (!terms.checked) {
+                    allFilled = false;
+                }
+
+                if (allFilled) {
+                    registerBtn.disabled = false;
+                    registerBtn.classList.add('is-active');
+                } else {
+                    registerBtn.disabled = true;
+                    registerBtn.classList.remove('is-active');
+                }
+            }
+
+            form.addEventListener('input', checkForm);
+            terms.addEventListener('change', checkForm);
+            
+            checkForm();
+        });
+    </script>
+}

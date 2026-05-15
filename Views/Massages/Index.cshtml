@@ -1,0 +1,55 @@
+@model IEnumerable<Masaza>
+
+@{
+    ViewData["Title"] = "Masaže";
+    ViewData["BodyClass"] = "subpage massages-page";
+}
+
+<div class="subpage-hero">
+    <div class="subpage-hero-inner">
+        <span class="subpage-hero-kicker">NAŠA PONUDBA</span>
+        <h1>AZIJSKE MASAŽE</h1>
+        <p class="subpage-hero-sub">Izberite željeno masažo ter jo rezervirajte s klikom nanjo</p>
+    </div>
+</div>
+
+<div class="massage-page">
+    @foreach (var m in Model)
+    {
+        if (User?.Identity?.IsAuthenticated ?? false)
+        {
+            <a asp-controller="Rezervacija"
+               asp-action="Create"
+               asp-route-idMasaze="@m.IdMasaze"
+               class="massage-card-link">
+                <div class="massage-card">
+                    <div class="massage-info">
+                        <h3>@m.NazivMasaze</h3>
+                        <p>@m.Opis</p>
+                    </div>
+                    <div class="massage-meta">
+                        <span>@m.TrajanjeMasaze min</span>
+                        <span>@m.Cena €</span>
+                    </div>
+                </div>
+            </a>
+        }
+        else
+        {
+            <div class="massage-card massage-disabled"
+                 role="button"
+                 tabindex="0"
+                 onclick="showLoginModal()"
+                 onkeydown="if(event.key==='Enter'){showLoginModal();}">
+                <div class="massage-info">
+                    <h3>@m.NazivMasaze</h3>
+                    <p>@m.Opis</p>
+                </div>
+                <div class="massage-meta">
+                    <span>@m.TrajanjeMasaze min</span>
+                    <span>@m.Cena €</span>
+                </div>
+            </div>
+        }
+    }
+</div>

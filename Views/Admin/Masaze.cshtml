@@ -1,0 +1,88 @@
+@model IEnumerable<MassageStudio.Models.Masaza>
+
+@{
+    ViewData["Title"] = "Masaže";
+    ViewData["BodyClass"] = "subpage admin-page";
+}
+
+<div class="subpage-hero">
+    <div class="subpage-hero-inner">
+        <span class="subpage-hero-kicker">UPRAVLJANJE</span>
+        <h1>MASAŽE</h1>
+        <p class="subpage-hero-sub">Upravljajte ponudbo masažnih storitev</p>
+    </div>
+</div>
+
+<div class="admin-wrap">
+    <div class="admin-card">
+        <div class="admin-card__head">
+            <div>
+                <h2>Upravljanje ponudbe</h2>
+                <p>Pregled, dodajanje in odstranjevanje masažnih storitev.</p>
+            </div>
+
+            <a asp-action="UstvariMasazo" class="admin-btn admin-btn--primary">
+                + Dodaj masažo
+            </a>
+        </div>
+
+        <div class="admin-table-wrap">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th style="width: 80px;">ID</th>
+                        <th style="width: auto;">Naziv</th>
+                        <th style="width: 150px;">Trajanje</th>
+                        <th style="width: 120px;">Cena</th>
+                        <th style="width: 150px;">Vrsta</th>
+                        <th style="width: 100px;">Kratica</th>
+                        <th style="width: 150px;" class="text-end">Akcije</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                @foreach (var m in Model)
+                {
+                    <tr>
+                        <td><span class="admin-muted">#@m.IdMasaze</span></td>
+                        <td><strong>@m.NazivMasaze</strong></td>
+                        <td>
+                            <span>@m.TrajanjeMasaze min</span>
+                        </td>
+                        <td>
+                            <span class="price-plain">@m.Cena €</span>
+                        </td>
+                        <td>
+                            <span class="type-plain">@m.Vrsta</span>
+                        </td>
+                        <td>
+                            <span class="code-plain">@m.Kratica</span>
+                        </td>
+                        <td class="text-end">
+                            <div class="admin-actions justify-content-end">
+                                    <a asp-action="UrediMasazo"
+                                    asp-route-id="@m.IdMasaze"
+                                    class="admin-btn admin-btn--ghost">
+                                        Uredi
+                                    </a>
+
+                                    <form asp-action="DeleteMasaza"
+                                        method="post"
+                                        class="admin-actions__form"
+                                        onsubmit="return confirm('Ali ste prepričani, da želite izbrisati to masažo?');">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@m.IdMasaze" />
+                                        <button type="submit" class="admin-btn admin-btn--danger">
+                                            Izbriši
+                                        </button>
+                                    </form>
+                    
+                            </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,88 @@
+@model IEnumerable<MassageStudio.Models.Maser>
+
+@{
+    ViewData["Title"] = "Osebje";
+    ViewData["BodyClass"] = "subpage admin-page";
+}
+<div class="subpage-hero">
+    <div class="subpage-hero-inner">
+        <span class="subpage-hero-kicker">UPRAVLJANJE</span>
+        <h1>OSEBJE</h1>
+        <p class="subpage-hero-sub">Dodajajte in upravljajte člane ekipe</p>
+    </div>
+</div>
+
+<div class="admin-wrap">
+    <div class="admin-card">
+        <div class="admin-card__head">
+            <div>
+                <h2>Upravljanje osebja</h2>
+                <p>Dodaj, uredi ali odstrani člane svoje ekipe.</p>
+            </div>
+
+            <a asp-action="UstvariMaserja" class="admin-btn admin-btn--primary">
+                + Dodaj maserja
+            </a>
+        </div>
+
+        <div class="admin-table-wrap">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th class="col-img">Slika</th>
+                        <th class="col-name">Ime</th>
+                        <th class="col-surname">Priimek</th>
+                        <th class="col-email">Email</th>
+                        <th class="col-desc">Opis</th>
+                        <th class="col-date">Datum rojstva</th>
+                        <th class="col-actions">Akcije</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                @foreach (var m in Model)
+                {
+                    <tr>
+                        <td class="col-img">
+                            <img class="admin-avatar"
+                                 src="~/images/maserji/@(string.IsNullOrEmpty(m.slika) ? "default.png" : m.slika)"
+                                 alt="@m.imeMaserja" />
+                        </td>
+
+                        <td class="col-name"><strong>@m.imeMaserja</strong></td>
+                        <td class="col-surname"><strong>@m.priimekMaserja</strong></td>
+
+                        <td class="col-email">
+                            <span class="admin-muted">@m.eMail</span>
+                        </td>
+
+                        <td class="col-desc">
+                            <div class="desc-truncate">@m.opis</div>
+                        </td>
+
+                        <td class="col-date">
+                            <span class="admin-muted">@m.datumRojstva.ToString("dd.MM.yyyy")</span>
+                        </td>
+
+                        <td class="col-actions">
+                            <div class="admin-actions">
+                                <a asp-action="EditMaserja" asp-route-id="@m.IdMaserja" class="admin-btn admin-btn--ghost">
+                                    Uredi
+                                </a>
+
+                                <form asp-action="Delete" method="post" class="admin-actions__form" onsubmit="return confirm('Ali ste prepričani, da želite izbrisati tega maserja?');">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@m.IdMaserja" />
+                                    <button type="submit" class="admin-btn admin-btn--danger">
+                                        Izbriši
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
